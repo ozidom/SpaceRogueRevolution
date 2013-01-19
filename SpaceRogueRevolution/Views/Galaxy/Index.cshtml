@@ -2,7 +2,7 @@
 
  @if(Model!=null)
     {
-<table>
+<table >
     <tr>
         <th></th>
     </tr>
@@ -12,8 +12,8 @@
         <tr>    
             @for(int col =0;col<30;col++ ){
             <td class="tile">
-               <a href="@Url.Action("Move",new SpaceRogueRevolution.Models.Coord {Row=row,Col=col})"> <img src='@Url.Content("~/Content/Images/" + @Model.map[row,col].FileName)'  class="tileImage" /></a>
-            </td>
+               <a href="@Url.Action("Move",new SpaceRogueRevolution.Models.Coord {Row=row,Col=col})"><img src='@Url.Content("~/Content/Images/" + @Model.map[row,col].FileName)'  class="tileImage" /></a>
+             </td>
             }
         </tr>
         }
@@ -25,12 +25,3 @@
     }
 
 
-
-
-<!--Nav Controls-->
-<div>
-    @Html.ActionLink("N","Move","Galaxy")
-     @Html.ActionLink("S","Move","Galaxy")
-     @Html.ActionLink("E","Move","Galaxy")
-     @Html.ActionLink("W","Move","Galaxy")
-</div>
