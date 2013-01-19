@@ -74,4 +74,8 @@ img {
     display:grid;
     border:0px;
 }
+img {
+     height:25px;
+    width:29px;
+}
 
