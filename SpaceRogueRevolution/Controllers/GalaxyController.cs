@@ -12,10 +12,10 @@ namespace SpaceRogueRevolution.Controllers
         //
         // GET: /Galaxy/
 
-        public ActionResult Index()
+        public void Index()
         {
-            Galaxy galaxy = GetGalaxy();
-            return View(galaxy);
+           // Galaxy galaxy = GetGalaxy();
+            RedirectToAction("Index", "Galaxy");
         }
 
         private Galaxy GetGalaxy()
@@ -65,12 +65,12 @@ namespace SpaceRogueRevolution.Controllers
             }
         }
 
-        public ActionResult Move(Coord coord)
+        public ActionResult Move(string command)
         {
 
             Galaxy galaxy = GetGalaxy();
-            galaxy.MovePlayer(coord);
-            return RedirectToAction("Index", "Galaxy", galaxy);
+            //galaxy.MovePlayer(coord);
+            return RedirectToAction("Index", "Home", "Hi");
         }
 
         //

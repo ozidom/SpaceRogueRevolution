@@ -1,28 +1,38 @@
-﻿@model SpaceRogueRevolution.Models.Galaxy
+﻿
+<canvas id="canvas">
 
+</canvas>
 
-<table >
-<!-- Screen -->
-   
-        @for(int row =0;row<30;row++ ) {
-        <tr>    
-            @for(int col =0;col<30;col++ ){
-            <td class="tile">
-               <a href="@Url.Action("Move",new SpaceRogueRevolution.Models.Coord {Row=row,Col=col})"><img src='@Url.Content("~/Content/Images/" + @Model.map[row,col].FileName)'  class="tileImage" title="@Model.map[row,col].Description" /></a>
-             </td>
-            }
-        </tr>
-        }
-    </table>
     <div id="DisplayText">
 
     </div>
   <script type="text/javascript">
-        window.onload = function () {
-            $('.tileImage').mouseover(function () {
-                if ($(this).attr('title') != "blank.png") {
-                    $('#DisplayText').text(($(this).attr('title')));
-                }
-            });
-        }
+      var action = new String();
+      $.ajax({
+          type: "POST",
+          url: '@Url.Action("Move","Galaxy")',
+          data: JSON.stringify(action),
+          contentType: "application/json; charset=utf-8",
+          dataType: "html",
+          success: function (data) {
+                alert("here" + data.d.toString());
+          }
+      });
+
+        @* //var playerSpaceShipImage = new Image();
+          var map = '@(Model.map)'
+          var playerSpaceShip = '@(Model.playerSpaceShip)';
+          var ctx = document.getElementById('canvas').getContext('2d');
+
+          playerSpaceShipImage.onload = function () {
+              ctx.drawImage(playerSpaceShipImage, playerSpaceShip.col, playerSpaceShipImage.row);
+          };
+          playerSpaceShipImage.src = playerSpaceShip.FileName;*/*@
+
+          //foreach of the rest of them
+
+
+
+          //dart.src = "/Content/Images/dart.png";
+
     </script>

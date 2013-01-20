@@ -1,5 +1,53 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+<script src="~/Scripts/jquery-1.8.2.js"></script>
 
-@Html.Action("Index","Galaxy")
+<canvas id="canvas" ></canvas>
+
+<script type="text/javascript">
+    $(document).ready(function()
+        {
+            var action = new String();
+            action = "hi";
+            //alert(action);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Move","Home")',
+            data: JSON.stringify(action),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+               // alert("here" + data.Message);
+                var ctx = document.getElementById('canvas').getContext('2d');
+                ctx.fillStyle = "rgba(0, 0,56, 70)";
+                ctx.fillRect(0, 0, 500,500);
+                var playerSpaceShipImage = new Image();
+                var playerSpaceShip = data.playerSpaceShip;
+
+                //draw our spaceship
+                playerSpaceShipImage.onload = function () {
+                    ctx.drawImage(playerSpaceShipImage, playerSpaceShip.col, playerSpaceShip.row,20,20);
+                };
+                playerSpaceShipImage.src = playerSpaceShip.FileName;
+
+                //draw the other items
+                for (i = 0; i < data.map.length;i++) {
+                    var itemImage = new Image();
+                    var item = data.map[i];
+
+                    //draw our spaceship
+                    itemImage.onload = function () {
+                        ctx.drawImage(itemImage, item.col, item.row, 20, 20);
+                    };
+                    itemImage.src = item.FileName;
+                }
+                
+            }
+        });
+    });
+</script>
+
+
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceRogueRevolution.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +25,26 @@ namespace SpaceRogueRevolution.Controllers
             return View();
         }
 
+        public ActionResult Move(string command)
+        {
+
+            Galaxy galaxy = GetGalaxy();
+            galaxy.Message = "Hello Earth";
+            return Json(galaxy);
+        }
+
+        private Galaxy GetGalaxy()
+        {
+            Galaxy galaxy;
+            if (Session["galaxy"] == null)
+            {
+                galaxy = new Galaxy();
+                Session["galaxy"] = galaxy;
+            }
+
+            galaxy = (Galaxy)Session["galaxy"];
+            return galaxy;
+        }
         //
         // GET: /Home/Create
 
