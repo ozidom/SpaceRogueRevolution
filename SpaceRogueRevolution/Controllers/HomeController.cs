@@ -24,12 +24,15 @@ namespace SpaceRogueRevolution.Controllers
         {
             return View();
         }
-
-        public ActionResult Move(string command)
+        [HttpPost]
+        public ActionResult Move(Command command)
         {
-
             Galaxy galaxy = GetGalaxy();
-            galaxy.Message = "Hello Earth";
+            if (command != null)
+            {
+               
+                galaxy.Message = command.ToString();
+            }
             return Json(galaxy);
         }
 

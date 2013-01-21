@@ -32,18 +32,18 @@ namespace SpaceRogueRevolution.Models
             //Place planets
             Random r = new Random();
             
-            Coord axis1 = new Coord { Row = r.Next(30), Col = r.Next(30) };
-            Tile planet1 = new Tile { ID = 2, FileName = "/Content/Images/planetwhite.png", Description = "Harina 4 - not much except for rocks dirt and the occaisional pirate",row=axis1.Row,col=axis1.Col };
+            Coord axis1 = new Coord { Row = r.Next(400), Col = r.Next(400) };
+            Tile planet1 = new Tile { ID = 2, FileName = "/Content/Images/planetbrown.png", Description = "Harina 4 - not much except for rocks dirt and the occaisional pirate",row=axis1.Row,col=axis1.Col };
             map.Add(planet1);
 
-            Coord axis2 = new Coord { Row = r.Next(30), Col = r.Next(30) };
+            Coord axis2 = new Coord { Row = r.Next(400), Col = r.Next(400) };
             Tile planet2 = new Tile { ID = 2, FileName = "/Content/Images/planetblue.png", Description = "Gazarnier - Rougher than sandpaper, if I had a buck for every time I broke my nose in a flea infested pub...",row=axis2.Row,col=axis2.Col };
          
             map.Add(planet2);
 
-            Coord axis3 = new Coord { Row = r.Next(30), Col = r.Next(30) };
+            Coord axis3 = new Coord { Row = r.Next(400), Col = r.Next(400) };
             Tile planet3 = new Tile { ID = 2, FileName = "/Content/Images/planetwhite.png", Description = "Maranikas, Ice planer - cold man just freakin freezin, and you thought IOWA got cold...",row=axis3.Row,col=axis3.Col };
-            map.Add(planet2);
+            map.Add(planet3);
 
           
         }

@@ -3,49 +3,76 @@
 }
 <script src="~/Scripts/jquery-1.8.2.js"></script>
 
-<canvas id="canvas" ></canvas>
+<div id="canvasContainer">
+
+    <canvas id="canvas" height="400" width="800" ></canvas>
+    
+</div>
 
 <script type="text/javascript">
     $(document).ready(function()
-        {
-            var action = new String();
-            action = "hi";
-            //alert(action);
-
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("Move","Home")',
-            data: JSON.stringify(action),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-               // alert("here" + data.Message);
-                var ctx = document.getElementById('canvas').getContext('2d');
-                ctx.fillStyle = "rgba(0, 0,56, 70)";
-                ctx.fillRect(0, 0, 500,500);
-                var playerSpaceShipImage = new Image();
-                var playerSpaceShip = data.playerSpaceShip;
-
-                //draw our spaceship
-                playerSpaceShipImage.onload = function () {
-                    ctx.drawImage(playerSpaceShipImage, playerSpaceShip.col, playerSpaceShip.row,20,20);
-                };
-                playerSpaceShipImage.src = playerSpaceShip.FileName;
-
-                //draw the other items
-                for (i = 0; i < data.map.length;i++) {
-                    var itemImage = new Image();
-                    var item = data.map[i];
+    {
+       // jQuery.ajaxSettings.traditional = true;
+        var sendCommandToServer = function (command) {
+            var commandObject = { ID: command };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Move","Home")',
+                data: JSON.stringify(commandObject),
+                contentType: 'application/json',
+                success: function (data) {
+                    // alert("here" + data.Message);
+                    var ctx = document.getElementById('canvas').getContext('2d');
+                    ctx.fillStyle = "rgba(0, 0,56, 70)";
+                    ctx.fillRect(0, 0, 500, 500);
+                    var playerSpaceShipImage = new Image();
+                    var playerSpaceShip = data.playerSpaceShip;
 
                     //draw our spaceship
-                    itemImage.onload = function () {
-                        ctx.drawImage(itemImage, item.col, item.row, 20, 20);
+                    playerSpaceShipImage.onload = function () {
+                        ctx.drawImage(playerSpaceShipImage, playerSpaceShip.col, playerSpaceShip.row, 20, 20);
                     };
-                    itemImage.src = item.FileName;
+                    playerSpaceShipImage.src = playerSpaceShip.FileName;
+
+                    //load the images
+                    var images = [];
+
+                    // draw them 
+                    var draw = function () {
+                        for (i = 0; i < data.map.length; i++) {
+                            var item = data.map[i];
+                            ctx.drawImage(images[i], item.row, item.col, 20, 20);
+                        };
+                    };
+
+                    var loadedImages = 0;
+                    for (i = 0; i < data.map.length; i++) {
+                        // var ctx = document.getElementById('canvas-' + i).getContext('2d'),
+                        var image = new Image();
+                        var item = data.map[i];
+                        image.src = item.FileName;
+
+                        image.onload = function () {
+                            loadedImages++;
+                            if (loadedImages == data.map.length)
+                                draw();
+                        };
+                        images.push(image);
+                    }
                 }
-                
-            }
-        });
+            });
+        };
+
+        var doKeyDown = function (evt) {
+            var command = new String();
+            alert(evt.keyCode);
+            sendCommandToServer(evt.keyCode);
+
+        }
+
+        var action = "hi";
+        window.addEventListener('keydown', doKeyDown, true);
+        sendCommandToServer(action);
     });
 </script>
 
