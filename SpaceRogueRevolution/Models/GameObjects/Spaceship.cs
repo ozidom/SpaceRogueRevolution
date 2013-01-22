@@ -19,7 +19,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
         public List<int> landingPermits { get; set; }
         public int Money { get; set; }
 
-        public List<Jobs> jobs { get; set; }
+        public List<Job> jobs { get; set; }
         public List<Spaceship> spaceShips { get; set; }
 
         public override void ProcessTurn()
@@ -28,5 +28,12 @@ namespace SpaceRogueRevolution.Models.GameObjects
         }
 
         public bool Impounded { get; set; }
+
+        public int Evasion { get; set; }
+
+        internal void TakeDamage(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

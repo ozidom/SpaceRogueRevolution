@@ -7,5 +7,8 @@ namespace SpaceRogueRevolution.Models.GameObjects
 {
     public class Weapon
     {
+        public int Accuracy { get; set; }
+
+        public object Damage { get; set; }
     }
 }

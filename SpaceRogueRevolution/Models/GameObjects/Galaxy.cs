@@ -72,16 +72,20 @@ namespace SpaceRogueRevolution.Models
             switch(commandText)
             {
                 case "n":
-                    playerSpaceShip.row -= 5;
+                    if (playerSpaceShip.row - 5 > 0)
+                        playerSpaceShip.row -= 5;
                     break;
                 case "s":
-                    playerSpaceShip.row += 5;
+                    if (playerSpaceShip.row + 5 < 400)
+                         playerSpaceShip.row += 5;
                     break;
                 case "e":
-                    playerSpaceShip.col += 5;
+                    if (playerSpaceShip.col + 5 < 400)
+                        playerSpaceShip.col += 5;
                     break;
                 case "w":
-                    playerSpaceShip.col -=5;
+                    if (playerSpaceShip.col - 5 > 0)
+                         playerSpaceShip.col -=5;
                     break;
 
             }

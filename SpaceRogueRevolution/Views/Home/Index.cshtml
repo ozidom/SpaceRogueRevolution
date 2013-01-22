@@ -2,16 +2,18 @@
     ViewBag.Title = "Index";
 }
 <script src="~/Scripts/jquery-1.8.2.js"></script>
-<div id ="message">mESSAGE</div>
+
 <div id="canvasContainer">
 
-    <canvas id="canvas" height="400" width="800" ></canvas>
+    <canvas onmousedown="" id="canvas" height="400" width="800" style="position:absolute;top:0px;left:0px" ></canvas>
     
 </div>
+<div id ="message" style="position:absolute;top:420px;left:0px" >mESSAGE</div>
 
 <script type="text/javascript">
     $(document).ready(function()
     {
+        
        // jQuery.ajaxSettings.traditional = true;
         var sendCommandToServer = function (command) {
             var commandObject = { ID: command };
@@ -21,14 +23,14 @@
                 data: JSON.stringify(commandObject),
                 contentType: 'application/json',
                 success: function (data) {
-                    $(".message").text(data.playerSpaceShip.row + "," + data.playerSpaceShip.col);
+
+                    $("#message").text( data.playerSpaceShip.col + ":" + data.playerSpaceShip.row);
                     var ctx = document.getElementById('canvas').getContext('2d');
-                    ctx.fillStyle = "rgba(0, 0,56, 70)";
+                    ctx.fillStyle = "rgba(0, 0, 56, 70)";
                     ctx.fillRect(0, 0, 500, 500);
                     var playerSpaceShipImage = new Image();
                     var playerSpaceShip = data.playerSpaceShip;
                     
-
                     //draw our spaceship
                     playerSpaceShipImage.onload = function () {
                         ctx.drawImage(playerSpaceShipImage, playerSpaceShip.col, playerSpaceShip.row, 20, 20);
@@ -71,8 +73,13 @@
 
         }
 
-        var action = "hi";
+        var action = "";
         window.addEventListener('keydown', doKeyDown, true);
+        $("#canvas").mousedown(function (e) {
+            var fixedX = e.clientX - 8;
+            var fixedY = e.clientY - 9;
+            $("#message").text("clicked: " + fixedX + ":" + fixedY);
+        });
         sendCommandToServer(action);
     });
 </script>
