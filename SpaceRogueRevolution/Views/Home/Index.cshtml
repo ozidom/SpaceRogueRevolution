@@ -2,7 +2,7 @@
     ViewBag.Title = "Index";
 }
 <script src="~/Scripts/jquery-1.8.2.js"></script>
-
+<div id ="message">mESSAGE</div>
 <div id="canvasContainer">
 
     <canvas id="canvas" height="400" width="800" ></canvas>
@@ -21,12 +21,13 @@
                 data: JSON.stringify(commandObject),
                 contentType: 'application/json',
                 success: function (data) {
-                    // alert("here" + data.Message);
+                    $(".message").text(data.playerSpaceShip.row + "," + data.playerSpaceShip.col);
                     var ctx = document.getElementById('canvas').getContext('2d');
                     ctx.fillStyle = "rgba(0, 0,56, 70)";
                     ctx.fillRect(0, 0, 500, 500);
                     var playerSpaceShipImage = new Image();
                     var playerSpaceShip = data.playerSpaceShip;
+                    
 
                     //draw our spaceship
                     playerSpaceShipImage.onload = function () {
@@ -65,7 +66,7 @@
 
         var doKeyDown = function (evt) {
             var command = new String();
-            alert(evt.keyCode);
+           // alert(evt.keyCode);
             sendCommandToServer(evt.keyCode);
 
         }

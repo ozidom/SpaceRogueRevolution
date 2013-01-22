@@ -130,9 +130,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Command.cs" />
-    <Compile Include="Models\Coord.cs" />
-    <Compile Include="Models\Galaxy.cs" />
+    <Compile Include="Models\Commands\Command.cs" />
+    <Compile Include="Models\Commands\Coord.cs" />
+    <Compile Include="Models\GameObjects\BaseGameObject.cs" />
+    <Compile Include="Models\GameObjects\Galaxy.cs" />
+    <Compile Include="Models\Commands\IGameControl.cs" />
+    <Compile Include="Models\Commands\KeyBoardGameControl.cs" />
+    <Compile Include="Models\GameObjects\Jobs.cs" />
+    <Compile Include="Models\GameObjects\Planet.cs" />
+    <Compile Include="Models\GameObjects\Spaceship.cs" />
+    <Compile Include="Models\GameObjects\Weapon.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

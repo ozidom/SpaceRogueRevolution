@@ -30,9 +30,10 @@ namespace SpaceRogueRevolution.Controllers
             Galaxy galaxy = GetGalaxy();
             if (command != null)
             {
-               
                 galaxy.Message = command.ToString();
             }
+            galaxy.ProcessCommand(command);
+            SetGalaxy(galaxy);
             return Json(galaxy);
         }
 
@@ -47,6 +48,13 @@ namespace SpaceRogueRevolution.Controllers
 
             galaxy = (Galaxy)Session["galaxy"];
             return galaxy;
+        }
+
+        private void SetGalaxy(Galaxy galaxy)
+        {
+           
+           Session["galaxy"] = galaxy;
+           
         }
         //
         // GET: /Home/Create
