@@ -139,6 +139,7 @@
     <Compile Include="Models\GameObjects\Galaxy.cs" />
     <Compile Include="Models\Commands\IGameControl.cs" />
     <Compile Include="Models\Commands\KeyBoardGameControl.cs" />
+    <Compile Include="Models\GameObjects\Imapable.cs" />
     <Compile Include="Models\GameObjects\Job.cs" />
     <Compile Include="Models\GameObjects\Planet.cs" />
     <Compile Include="Models\GameObjects\Spaceship.cs" />

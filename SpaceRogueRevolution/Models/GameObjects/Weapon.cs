@@ -5,10 +5,12 @@ using System.Web;
 
 namespace SpaceRogueRevolution.Models.GameObjects
 {
-    public class Weapon
+    public class Weapon : BaseGameObject
     {
         public int Accuracy { get; set; }
 
-        public object Damage { get; set; }
+        public int Damage { get; set; }
+
+        public int Range { get; set; }
     }
 }
