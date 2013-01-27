@@ -23,9 +23,18 @@ namespace SpaceRogueRevolution.Models.GameObjects
         public int Row { get; set; }
         public int Col { get; set; }
 
+        public override string Description 
+        {
+           get{
+               return this.Name + " food " + this.CurrentFood + " LawLevel " + this.LawLevel;
+           }
+        }
+        
+        public  string Name { get; set; }
+
         public override void ProcessTurn()
         {
-            if (jobs.Count < 5)
+            if (jobs!= null && jobs.Count < 5)
             {
                 while (jobs.Count < 10)
                 {
@@ -33,21 +42,24 @@ namespace SpaceRogueRevolution.Models.GameObjects
                 }
             }
 
-            if (CurrentFood < MaxFood)
+            //if (CurrentFood < MaxFood)
                 CurrentFood++;
 
-            if (CurrentFuel < MaxFuel)
+            //if (CurrentFuel < MaxFuel)
                 CurrentFuel++;
 
-            foreach (Spaceship s in spaceShips)
+            if (spaceShips != null)
             {
-                if (!s.landingPermits.Contains(LandingPermitID))
-                {         
-                    Random r = new Random();
-                    int luck = r.Next(10);
-                    if (luck < LawLevel)
+                foreach (Spaceship s in spaceShips)
+                {
+                    if (!s.landingPermits.Contains(LandingPermitID))
                     {
-                        s.Impounded = true;
+                        Random r = new Random();
+                        int luck = r.Next(10);
+                        if (luck < LawLevel)
+                        {
+                            s.Impounded = true;
+                        }
                     }
                 }
             }
@@ -93,6 +105,18 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
         private string GetFileNameForPlanet()
         {
+            switch (type)
+            {
+                case SpaceRogueRevolution.Models.Utility.PlanetType.Desert:
+                    return "/Content/Images/planetbrown.png";
+                case SpaceRogueRevolution.Models.Utility.PlanetType.Water:
+                    return "/Content/Images/planetblue.png";
+                case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
+                    return "/Content/Images/planetwhite.png";
+                case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
+                    return "/Content/Images/planetbrown.png";
+            }
+
             return "/Content/Images/planetbrown.png";
 
             //switch(type)
@@ -109,5 +133,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
             //return "/Content/Images/planetyellow.png"; ;
         }
+
+    
     }
 }

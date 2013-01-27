@@ -13,6 +13,7 @@ namespace SpaceRogueRevolution.Models
         public string Description { get; set; }
         public int row { get; set; }
         public int col { get; set; }
+        public string directionImage { get; set; }
 
     }
 }

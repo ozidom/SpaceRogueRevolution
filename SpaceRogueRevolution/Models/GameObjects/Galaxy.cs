@@ -14,7 +14,7 @@ namespace SpaceRogueRevolution.Models
         private Coord locationPlayer;
         private List<BaseGameObject> gameObjects;
         public string Message;
-        public Tile playerSpaceShip;
+        public Spaceship playerSpaceShip;
         public IGameControl gameControl;
 
         public Galaxy()
@@ -29,26 +29,27 @@ namespace SpaceRogueRevolution.Models
             locationPlayer = new Coord { Row = 5, Col = 5 };
             map = new List<Tile>();
             AddPlanetsToGameObjects();
-            AddGameObjectsToMap();
+            playerSpaceShip = new Spaceship();
+            //AddGameObjectsToMap();
 
         }
 
-        private void AddGameObjectsToMap()
+        private void UpdateGameObjectsToMap()
         {
-            //Place planets
+            map.Clear();
+            if (playerSpaceShip == null)
+                playerSpaceShip = new Spaceship { ID = 1, DirectionImage = playerSpaceShip.DirectionImage, Description = "The old but reliable dart" };
             
-            playerSpaceShip = new Tile { ID = 1, FileName = "/Content/Images/dart.png", Description = "The old but reliable dart", row = 5, col = 5 };
-            map.Add(playerSpaceShip);
+          gameObjects.Add(playerSpaceShip);
 
-            gameObjects.ToList().ForEach(go =>
+          gameObjects.ToList().ForEach(go =>
+            {
+                if (go is Imapable)
                 {
-                    if (go is Imapable)
-                    {
-                        Debug.WriteLine("mappable");
-                        map.Add(((Imapable)go).GetTileForMap());
-                    }
-                });
-
+                    Debug.WriteLine("mappable");
+                    map.Add(((Imapable)go).GetTileForMap());
+                }
+            });
         }
 
         private void AddPlanetsToGameObjects()
@@ -67,8 +68,8 @@ namespace SpaceRogueRevolution.Models
 
         internal void MovePlayer(Coord coord)
         {
-            playerSpaceShip.row = coord.Row;
-            playerSpaceShip.col = coord.Col;
+            playerSpaceShip.Row = coord.Row;
+            playerSpaceShip.Col = coord.Col;
 
             //loop thru the planets and work out if docked
         }
@@ -77,36 +78,57 @@ namespace SpaceRogueRevolution.Models
         {
             string commandText = gameControl.takeAction(command);
             TakePlayerActionFromCommand(commandText);
+            TakeComputerActions();
+            UpdateGameObjectsToMap();
 
 
         }
 
         internal void TakePlayerActionFromCommand(string commandText)
         {
+            playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
             switch(commandText)
             {
                 case "n":
-                    if (playerSpaceShip.row - 5 > 0)
-                        playerSpaceShip.row -= 5;
+                    if (playerSpaceShip.Row - 5 > 0)
+                    {
+                        playerSpaceShip.Row -= 5;
+                        playerSpaceShip.DirectionImage = "/Content/Images/dartnorth.png";
+                    }
                     break;
                 case "s":
-                    if (playerSpaceShip.row + 5 < 400)
-                         playerSpaceShip.row += 5;
+                    if (playerSpaceShip.Row + 5 < 400)
+                    {
+                        playerSpaceShip.Row += 5;
+                        playerSpaceShip.DirectionImage = "/Content/Images/dartsouth.png";
+                    }
                     break;
                 case "e":
-                    if (playerSpaceShip.col + 5 < 400)
-                        playerSpaceShip.col += 5;
+                    if (playerSpaceShip.Col + 5 < 400)
+                    {
+                        playerSpaceShip.Col += 5;
+                        playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
+                    }
                     break;
                 case "w":
-                    if (playerSpaceShip.col - 5 > 0)
-                         playerSpaceShip.col -=5;
+                    if (playerSpaceShip.Col - 5 > 0)
+                    {
+                        playerSpaceShip.Col -= 5;
+                        playerSpaceShip.DirectionImage = "/Content/Images/dartwest.png";
+                    }
                     break;
             }
+            playerSpaceShip.ProcessTurn();
+
         }
 
         internal void TakeComputerActions()
         {
-           // foreach(BaseGameObject object in 
+            foreach (BaseGameObject go in gameObjects)
+            {
+                
+                go.ProcessTurn();
+            }
         }
     }
 }

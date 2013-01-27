@@ -8,8 +8,8 @@
     <canvas onmousedown="" id="canvas" height="400" width="800" style="position:absolute;top:0px;left:0px" ></canvas>
     
 </div>
-<div id ="message" style="position:absolute;top:420px;left:0px" >mESSAGE</div>
-
+<div id ="message" style="position:absolute;top:420px;left:0px" ></div>
+<div id ="display" style="position:absolute;top:450px;left:0px" ></div>
 <script type="text/javascript">
     $(document).ready(function()
     {
@@ -27,8 +27,10 @@
                     $("#message").text( data.playerSpaceShip.col + ":" + data.playerSpaceShip.row);
                     var ctx = document.getElementById('canvas').getContext('2d');
                     ctx.fillStyle = "rgba(0, 0, 56, 70)";
+                    
                     ctx.fillRect(0, 0, 500, 500);
-                    var playerSpaceShipImage = new Image();
+                  
+                    //var playerSpaceShipImage = new Image();
                     var playerSpaceShip = data.playerSpaceShip;
                     var images = [];
 
@@ -41,6 +43,7 @@
 
                     var loadedImages = 0;
                     for (i = 0; i < data.map.length; i++) {
+                        //alert(data.map.length);
                         var image = new Image();
                         var item = data.map[i];
                         image.addEventListener("load", function () {
@@ -63,7 +66,6 @@
 
         var intersect = function (firstX, firstY, secondX, secondY)
         {
-            //alert("clicked: " + firstX + ":" + firstY + "target:" + secondX + ":" + secondY);
             if (firstX == secondX && firstY == secondY)
                 return true;
 
@@ -82,7 +84,7 @@
             for(var i=0;i<gameData.map.length;i++)
             {
                 if (intersect(gameData.map[i].col, gameData.map[i].row, fixedX, fixedY)) {
-                    alert(gameData.map[i].Description);
+                    $("#display").text(gameData.map[i].Description);
                 }
             }
            

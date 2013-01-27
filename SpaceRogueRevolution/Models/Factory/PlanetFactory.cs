@@ -31,7 +31,7 @@ namespace SpaceRogueRevolution.Models.Factory
         public static Planet CreateRandomPlanet()
         {
             Planet p = new Planet();
-            
+            p.Name = GenRandomName();
             p.CurrentFuel = Utility.Rnd(100);
             p.MaxFuel = Utility.Rnd(100);
             p.CurrentFood = Utility.Rnd(100);
@@ -40,7 +40,7 @@ namespace SpaceRogueRevolution.Models.Factory
             p.LawLevel = Utility.Rnd(10);
             p.CostLandingPermit = Utility.Rnd(10);
             p.LandingPermitID = Utility.Rnd(10);
-            p.Description = GenRandomName();
+           
             p.Row = Utility.Rnd(400);
             p.Col = Utility.Rnd(400);
             List<Spaceship> spaceShips = GetRandomSpaceship();  //Spaceships docked  
@@ -51,6 +51,8 @@ namespace SpaceRogueRevolution.Models.Factory
 
             return p;
         }
+
+        
 
         //private string GetRandomName()
         //{

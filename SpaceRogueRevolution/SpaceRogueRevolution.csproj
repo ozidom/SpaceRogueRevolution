@@ -151,6 +151,10 @@
   <ItemGroup>
     <Content Include="Content\Images\blank.png" />
     <Content Include="Content\Images\dart.png" />
+    <Content Include="Content\Images\darteast.png" />
+    <Content Include="Content\Images\dartnorth.png" />
+    <Content Include="Content\Images\dartsouth.png" />
+    <Content Include="Content\Images\dartwest.png" />
     <Content Include="Content\Images\freighter.png" />
     <Content Include="Content\Images\pirate.png" />
     <Content Include="Content\Images\planetblue.png" />
