@@ -99,7 +99,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
         public Tile GetTileForMap()
         {
-            Tile t = new Tile { ID = 1, FileName = GetFileNameForPlanet(), Description = this.Description, row = this.Row, col = this.Col };
+            Tile t = new Tile { ID = this.ID, FileName = GetFileNameForPlanet(), Description = this.Description, row = this.Row, col = this.Col };
             return t;
         }
 
@@ -114,10 +114,10 @@ namespace SpaceRogueRevolution.Models.GameObjects
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
                     return "/Content/Images/planetwhite.png";
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
-                    return "/Content/Images/planetbrown.png";
+                    return "/Content/Images/planetwhite.png";
             }
+            return "/Content/Images/planetwhite.png";
 
-            return "/Content/Images/planetbrown.png";
 
             //switch(type)
             //{

@@ -1,4 +1,5 @@
 ﻿using SpaceRogueRevolution.Models;
+using SpaceRogueRevolution.Models.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,19 +26,39 @@ namespace SpaceRogueRevolution.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Move(Command command)
+        public ActionResult Sync(List<Tile> map)
+
         {
-            Galaxy galaxy = GetGalaxy();
+            Galaxy galaxy = GetGalaxy(map);
+            SetGalaxy(galaxy);
+            galaxy.TakeComputerActions();
+            galaxy.UpdateGameObjectsToMap();
+            return Json(galaxy);
+        }
+
+        [HttpPost]
+        public ActionResult TakeAction(string command)
+        {
+            Galaxy galaxy = GetGalaxy(null);
             if (command != null)
             {
                 galaxy.Message = command.ToString();
             }
-            galaxy.ProcessCommand(command);
+            galaxy.ProcessCommand(new Command { ID = int.Parse(command) });
             SetGalaxy(galaxy);
             return Json(galaxy);
         }
 
-        private Galaxy GetGalaxy()
+          [HttpPost]
+        public ActionResult Docking(int planet)
+        {
+            Galaxy galaxy = GetGalaxy(null);
+            SetGalaxy(galaxy);
+            List<string> jobs = galaxy.GetOpenJobsForPlanet(planet);
+            return Json(jobs);
+        }
+
+        private Galaxy GetGalaxy(List<Tile> map)
         {
             Galaxy galaxy;
             if (Session["galaxy"] == null)
@@ -47,6 +68,13 @@ namespace SpaceRogueRevolution.Controllers
             }
 
             galaxy = (Galaxy)Session["galaxy"];
+            if (map != null)
+            {
+                galaxy.map = map;
+                Tile playerSpaceShipTile = galaxy.map.Last();
+                galaxy.playerSpaceShip.Row = playerSpaceShipTile.row;
+                galaxy.playerSpaceShip.Col = playerSpaceShipTile.col;
+            }
             return galaxy;
         }
 

@@ -28,9 +28,10 @@ namespace SpaceRogueRevolution.Models.Factory
         Weapon weapon = GetRandomGroundDefenceWeapon();
 
 
-        public static Planet CreateRandomPlanet()
+        public static Planet CreateRandomPlanet(int id)
         {
             Planet p = new Planet();
+            p.ID = id;
             p.Name = GenRandomName();
             p.CurrentFuel = Utility.Rnd(100);
             p.MaxFuel = Utility.Rnd(100);

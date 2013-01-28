@@ -3,6 +3,7 @@ using SpaceRogueRevolution.Models.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -26,22 +27,21 @@ namespace SpaceRogueRevolution.Models
 
         private void BuildMap()
         {
-            locationPlayer = new Coord { Row = 5, Col = 5 };
+            //locationPlayer = new Coord { Row = 5, Col = 5 };
             map = new List<Tile>();
             AddPlanetsToGameObjects();
-            playerSpaceShip = new Spaceship();
-            //AddGameObjectsToMap();
+           
+            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = "/Content/Images/darteast.png", Description = "The old but reliable dart",Row=5,Col=5  };
+            gameObjects.Add(playerSpaceShip);
+            UpdateGameObjectsToMap();
 
         }
 
-        private void UpdateGameObjectsToMap()
-        {
-            map.Clear();
-            if (playerSpaceShip == null)
-                playerSpaceShip = new Spaceship { ID = 1, DirectionImage = playerSpaceShip.DirectionImage, Description = "The old but reliable dart" };
-            
-          gameObjects.Add(playerSpaceShip);
 
+        public void UpdateGameObjectsToMap()
+        {
+          map.Clear();
+           
           gameObjects.ToList().ForEach(go =>
             {
                 if (go is Imapable)
@@ -58,7 +58,7 @@ namespace SpaceRogueRevolution.Models
 
             for(int i=0;i<10;i++)
             {
-                Planet pt = PlanetFactory.CreateRandomPlanet();
+                Planet pt = PlanetFactory.CreateRandomPlanet(i);
                 gameObjects.Add(pt);
             }
 
@@ -86,38 +86,44 @@ namespace SpaceRogueRevolution.Models
 
         internal void TakePlayerActionFromCommand(string commandText)
         {
-            playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
+            string imageFileName = "";
             switch(commandText)
             {
                 case "n":
                     if (playerSpaceShip.Row - 5 > 0)
                     {
                         playerSpaceShip.Row -= 5;
-                        playerSpaceShip.DirectionImage = "/Content/Images/dartnorth.png";
+                        imageFileName = "dartnorth.png";
                     }
                     break;
                 case "s":
                     if (playerSpaceShip.Row + 5 < 400)
                     {
                         playerSpaceShip.Row += 5;
-                        playerSpaceShip.DirectionImage = "/Content/Images/dartsouth.png";
+                        imageFileName = "dartsouth.png";
                     }
                     break;
                 case "e":
                     if (playerSpaceShip.Col + 5 < 400)
                     {
                         playerSpaceShip.Col += 5;
-                        playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
+                        imageFileName = "darteast.png";
                     }
                     break;
                 case "w":
                     if (playerSpaceShip.Col - 5 > 0)
                     {
                         playerSpaceShip.Col -= 5;
-                        playerSpaceShip.DirectionImage = "/Content/Images/dartwest.png";
+                        imageFileName = "dartwest.png";
                     }
                     break;
+                case "j":
+                    //list jobs for current planet
+                    break;
             }
+            //C:\Code\MVC\SpaceRogueRevolution\SpaceRogueRevolution\Content\Images
+            //playerSpaceShip.DirectionImage = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/Content/Images/"), imageFileName);
+            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
             playerSpaceShip.ProcessTurn();
 
         }
@@ -126,9 +132,14 @@ namespace SpaceRogueRevolution.Models
         {
             foreach (BaseGameObject go in gameObjects)
             {
-                
                 go.ProcessTurn();
             }
+        }
+
+        internal List<string> GetOpenJobsForPlanet(int planet)
+        {
+            return new List<string> { "(123) - Computer Transport Job $32000","(143) - Transfer Prisoner $87364","(873) Cargo - Beer","(763) Cargo - Juice","(21) Passengers - Hockey Team" };
+
         }
     }
 }

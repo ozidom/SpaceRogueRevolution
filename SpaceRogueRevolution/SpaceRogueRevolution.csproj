@@ -150,16 +150,36 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\blank.png" />
-    <Content Include="Content\Images\dart.png" />
-    <Content Include="Content\Images\darteast.png" />
-    <Content Include="Content\Images\dartnorth.png" />
-    <Content Include="Content\Images\dartsouth.png" />
-    <Content Include="Content\Images\dartwest.png" />
-    <Content Include="Content\Images\freighter.png" />
-    <Content Include="Content\Images\pirate.png" />
-    <Content Include="Content\Images\planetblue.png" />
-    <Content Include="Content\Images\planetbrown.png" />
-    <Content Include="Content\Images\planetwhite.png" />
+    <Content Include="Content\Images\dart.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\darteast.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartnorth.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartsouth.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartwest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\freighter.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\pirate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetblue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetbrown.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetwhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\sun.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
