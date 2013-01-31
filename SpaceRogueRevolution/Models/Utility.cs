@@ -8,6 +8,8 @@ namespace SpaceRogueRevolution.Models
     public class Utility
     {
         static Random r;
+        private static readonly object syncLock = new object();
+
         public Utility()
         {
             r = new Random();
@@ -17,7 +19,10 @@ namespace SpaceRogueRevolution.Models
             //Random r = new Random();
             if (r == null)
                 r = new Random();
-            return r.Next(max);
+            lock (syncLock)
+            {
+                return r.Next(max);
+            }
         }
 
         public enum PlanetType

@@ -11,7 +11,7 @@
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
-<div id ="serverprocessingdisplay" style="position:absolute;top:450px;left:0px;z-index:10" >Processing...</div>
+<div id ="serverprocessingdisplay" style="position:absolute;top:150px;left:0px;z-index:10;background-color:red;font-size:18pt" >Contacting Server...</div>
 
 <div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px">
     <div>
@@ -91,6 +91,8 @@
                 contentType: 'application/json',
                 success: function (data) {
                     gameData = data;
+                    $('#serverprocessingdisplay').hide(1000);
+                    IsServerProcessing = false;
                     drawScreen();
                 }
             });
@@ -105,6 +107,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     jobs = data;
+                    $('#message').text('');
                     for (var i = 0; i < data.length; i++) {
                         $('#message').append(i, "<div>" + jobs[i].Description + "</div>");
                     }

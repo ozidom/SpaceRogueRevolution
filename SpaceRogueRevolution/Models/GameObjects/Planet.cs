@@ -32,6 +32,10 @@ namespace SpaceRogueRevolution.Models.GameObjects
         
         public  string Name { get; set; }
 
+        public Planet()
+        {
+        }
+
         public override void ProcessTurn()
         {
             if (jobs!= null && jobs.Count < 5)

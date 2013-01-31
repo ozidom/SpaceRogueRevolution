@@ -17,12 +17,12 @@ namespace SpaceRogueRevolution.Models.Factory
         {
             int id = 0;
             int value = 0;
-            int Destination = 0;
+       
             string description = "";
-          
+            Random r = new Random();
             GetRandomDescriptionAndValue(out description,out value);
-            int destinationID = Utility.Rnd(numberPlanets);
-            return new Job { ID = id, Description = description, DestinationID = Utility.Rnd(9), Value = value };  
+            int destinationID = r.Next(9);
+            return new Job { ID = id++, Description = description, DestinationID = destinationID, Value = value };  
         }
 
         private static int GetRandomJobValue()
@@ -38,7 +38,7 @@ namespace SpaceRogueRevolution.Models.Factory
             return planets[randomIndex].ID;
         }
 
-        private static void GetRandomDescriptionAndValue(out string description,out int value )
+        public static void GetRandomDescriptionAndValue(out string description,out int value )
         {
             
             var jobs = new [] { new {Name="Transfer of Cash",value=100},

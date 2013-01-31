@@ -41,14 +41,20 @@ namespace SpaceRogueRevolution.Controllers
         [HttpPost]
         public ActionResult TakeAction(string command)
         {
-            Galaxy galaxy = GetGalaxy(null);
+            /*Galaxy galaxy = GetGalaxy(null);
             if (command != null)
             {
                 galaxy.Message = command.ToString();
             }
             galaxy.ProcessCommand(new Command { ID = int.Parse(command) });
             SetGalaxy(galaxy);
-            return Json(galaxy);
+            return Json(galaxy);*/
+            Galaxy galaxy = GetGalaxy(null);
+            SetGalaxy(galaxy);
+            galaxy.TakeComputerActions();
+            galaxy.UpdateGameObjectsToMap();
+            //ViewBag.SRR = true;
+            return Json(galaxy.map);
         }
 
           [HttpPost]
