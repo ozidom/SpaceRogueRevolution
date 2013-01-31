@@ -34,6 +34,7 @@
         var gameData;
         var jobs;
         var docked = false;
+        var cash = 0;       
 
         var drawScreen = function () {
             var loadedImages = 0;
@@ -177,7 +178,12 @@
                         var planet = getPlanetByID(currentJob.DestinationID);
                         if (planet != null) {
                             if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row)) {
-                                alert("job is done");
+                                cash += currentJob.Value;
+                                $('#message').text("job done you earned "+ currentJob.Value);
+                                if (cash >= 1000) {
+                                    alert('game over you have won');
+                                }
+                                currentJob = null;
                             }
                         }
                     }
