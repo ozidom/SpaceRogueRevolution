@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
 }
 <script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.2.js"></script>
 
 <div id="canvasContainer">
 
@@ -10,11 +11,24 @@
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
+<div id ="serverprocessingdisplay" style="position:absolute;top:450px;left:0px;z-index:10" >Processing...</div>
+
+<div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px">
+    <div>
+          <p>Welcome to the galaxy, You are the captain of the dart. Travel to different planets to pickup jobs and collect money. If you 
+              have more than 100 million credits you win. Its that simple...
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">
+        <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
+    </div> 
+</div>
+
 <script type="text/javascript">
     $(document).ready(function()
     {
-     
-
+      // $("#dialog").dialog("open");
+        var IsServerProcessing = false;
         var clickCount = 0;
         var gameData;
         var jobs;
@@ -26,18 +40,18 @@
             ctx.fillStyle = "rgba(0, 0, 56, 70)";
             ctx.fillRect(0, 0, 500, 500);
             var draw = function () {
-                for (i = 0; i < gameData.map.length; i++) {
-                    var item = gameData.map[i];
+                for (i = 0; i < gameData.length; i++) {
+                    var item = gameData[i];
                     ctx.drawImage(images[i], item.col, item.row, 20, 20);
                 };
             };
 
-            for (i = 0; i < gameData.map.length; i++) {
+            for (i = 0; i < gameData.length; i++) {
                 var image = new Image();
-                var item = gameData.map[i];
+                var item = gameData[i];
                 image.addEventListener("load", function () {
                     loadedImages++;
-                    if (loadedImages == gameData.map.length) {
+                    if (loadedImages == gameData.length) {
                         draw();
                     }
                 }, false);
@@ -51,7 +65,9 @@
         var syncServer = function () {
             var mapObject = null;
             if (gameData != null)
-                mapObject = { map: gameData.map };
+                mapObject = { map: gameData };
+            $('#serverprocessingdisplay').show(10);
+            IsServerProcessing = true;
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Sync","Home")',
@@ -59,8 +75,8 @@
                 contentType: 'application/json',
                 success: function (data) {
                     gameData = data;
-                    var playerSpaceShip = data.playerSpaceShip;
-
+                    $('#serverprocessingdisplay').hide(1000);
+                    IsServerProcessing = false;
                     drawScreen();
                 }
             });
@@ -75,7 +91,6 @@
                 contentType: 'application/json',
                 success: function (data) {
                     gameData = data;
-                    var playerSpaceShip = data.playerSpaceShip;
                     drawScreen();
                 }
             });
@@ -89,9 +104,9 @@
                 data: JSON.stringify(commandObject),
                 contentType: 'application/json',
                 success: function (data) {
-                    gameData = data;
+                    jobs = data;
                     for (var i = 0; i < data.length; i++) {
-                        $('#message').append(i, "<div>" + data[i] + "</div>");
+                        $('#message').append(i, "<div>" + jobs[i].Description + "</div>");
                     }
                      
                 }
@@ -99,23 +114,23 @@
         };
 
         var getKeyBoardAction = function (evt) {
-            var playerSpaceShip = gameData.map[0];
+            var playerSpaceShip = gameData[0];
             switch (evt.keyCode) {
-                case 37:
+                case 65:
                     if (playerSpaceShip.col - 5)
-                        gameData.map[10].col -= 5;
+                        gameData[10].col -= 5;
                     break;
-                case 38:
+                case 87:
                     if (playerSpaceShip.row - 5)
-                        gameData.map[10].row -= 5;
+                        gameData[10].row -= 5;
                     break;
-                case 39:
+                case 83:
                     if (playerSpaceShip.col + 5 < 400)
-                        gameData.map[10].col += 5;
+                        gameData[10].col += 5;
                     break;
-                case 40:
+                case 90:
                     if (playerSpaceShip.row + 5 < 400)
-                        gameData.map[10].row += 5;
+                        gameData[10].row += 5;
                     break;
                 default:
                     sendCommandToServer(evt.keyCode);
@@ -123,11 +138,11 @@
             }
             //check for dock
             var docked = false;
-            for (var i = 0; i < gameData.map.length-1; i++) {
-                if (intersect(gameData.map[i].col, gameData.map[i].row, gameData.map[10].col, gameData.map[10].row)) {
+            for (var i = 0; i < gameData.length-1; i++) {
+                if (intersect(gameData[i].col, gameData[i].row, gameData[10].col, gameData[10].row)) {
                     
                     $("#display").text('Docking');
-                    sendDockingCommandToServer(gameData.map[i].ID);
+                    sendDockingCommandToServer(gameData[i].ID);
                 }
             }
             
@@ -135,13 +150,14 @@
 
 
         var doKeyDown = function (evt) {
-            
-            var command = new String();
-            getKeyBoardAction(evt);
-            drawScreen();
-            if (clickCount++ > 5) {
-                syncServer(gameData.map,evt.keyCode);
-                clickCount = 0;
+            if (!IsServerProcessing) {
+                var command = new String();
+                getKeyBoardAction(evt);
+                drawScreen();
+                if (clickCount++ > 5) {
+                    syncServer(gameData, evt.keyCode);
+                    clickCount = 0;
+                }
             }
         };
 
@@ -164,10 +180,10 @@
             var fixedX = e.clientX - 8;
             var fixedY = e.clientY - 9;
             //determine any intersections
-            for(var i=0;i<gameData.map.length;i++)
+            for(var i=0;i<gameData.length;i++)
             {
-                if (intersect(gameData.map[i].col, gameData.map[i].row, fixedX, fixedY)) {
-                    $("#display").text(gameData.map[i].Description);
+                if (intersect(gameData[i].col, gameData[i].row, fixedX, fixedY)) {
+                    $("#display").text(gameData[i].Description);
                 }
             }
             $("#message").text("clicked: " + fixedX + ":" + fixedY);

@@ -13,7 +13,7 @@ namespace SpaceRogueRevolution.Models.Factory
             return new Job { ID = id, Description = description, DestinationID = desination, Value = value };  
         }
 
-        public static Job CreateRandomJob(List<Planet> planets)
+        public static Job CreateRandomJob(int numberPlanets)
         {
             int id = 0;
             int value = 0;
@@ -21,8 +21,8 @@ namespace SpaceRogueRevolution.Models.Factory
             string description = "";
           
             GetRandomDescriptionAndValue(out description,out value);
-            int destinationID = GetRandomDestination(planets);
-            return new Job { ID = id, Description = description, DestinationID = destinationID, Value = value };  
+            int destinationID = Utility.Rnd(numberPlanets);
+            return new Job { ID = id, Description = description, DestinationID = Utility.Rnd(9), Value = value };  
         }
 
         private static int GetRandomJobValue()

@@ -46,7 +46,7 @@ namespace SpaceRogueRevolution.Models.Factory
             p.Col = Utility.Rnd(400);
             List<Spaceship> spaceShips = GetRandomSpaceship();  //Spaceships docked  
             //if (friendlyPlanets != null)
-            //    List<Job> jobs = GetRandomJobs(6,friendlyPlanets);
+            p.jobs = GetRandomJobs();
 
                    p.weapon = GetRandomGroundDefenceWeapon();
 
@@ -98,12 +98,12 @@ namespace SpaceRogueRevolution.Models.Factory
             return weapons[randomIndex];
         }
 
-        private static List<Job> GetRandomJobs(int numberOfRandomJobs,List<Planet> friendlyPlanets)
+        private static List<Job> GetRandomJobs()
         {
             List<Job> jobs = new List<Job>();
-            for (int i = 0; i < numberOfRandomJobs; i++)
+            for (int i = 0; i < 10; i++)
             {
-                jobs.Add(JobFactory.CreateRandomJob(friendlyPlanets));
+                jobs.Add(JobFactory.CreateRandomJob(10));
             }
             return jobs;
         }

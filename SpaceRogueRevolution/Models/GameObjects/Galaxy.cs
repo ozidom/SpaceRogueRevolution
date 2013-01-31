@@ -89,41 +89,41 @@ namespace SpaceRogueRevolution.Models
             string imageFileName = "";
             switch(commandText)
             {
-                case "n":
-                    if (playerSpaceShip.Row - 5 > 0)
-                    {
-                        playerSpaceShip.Row -= 5;
-                        imageFileName = "dartnorth.png";
-                    }
-                    break;
-                case "s":
-                    if (playerSpaceShip.Row + 5 < 400)
-                    {
-                        playerSpaceShip.Row += 5;
-                        imageFileName = "dartsouth.png";
-                    }
-                    break;
-                case "e":
-                    if (playerSpaceShip.Col + 5 < 400)
-                    {
-                        playerSpaceShip.Col += 5;
-                        imageFileName = "darteast.png";
-                    }
-                    break;
-                case "w":
-                    if (playerSpaceShip.Col - 5 > 0)
-                    {
-                        playerSpaceShip.Col -= 5;
-                        imageFileName = "dartwest.png";
-                    }
-                    break;
+                //case "n":
+                //    if (playerSpaceShip.Row - 5 > 0)
+                //    {
+                //        playerSpaceShip.Row -= 5;
+                //        imageFileName = "dartnorth.png";
+                //    }
+                //    break;
+                //case "s":
+                //    if (playerSpaceShip.Row + 5 < 400)
+                //    {
+                //        playerSpaceShip.Row += 5;
+                //        imageFileName = "dartsouth.png";
+                //    }
+                //    break;
+                //case "e":
+                //    if (playerSpaceShip.Col + 5 < 400)
+                //    {
+                //        playerSpaceShip.Col += 5;
+                //        imageFileName = "darteast.png";
+                //    }
+                //    break;
+                //case "w":
+                //    if (playerSpaceShip.Col - 5 > 0)
+                //    {
+                //        playerSpaceShip.Col -= 5;
+                //        imageFileName = "dartwest.png";
+                //    }
+                //    break;
                 case "j":
                     //list jobs for current planet
                     break;
             }
             //C:\Code\MVC\SpaceRogueRevolution\SpaceRogueRevolution\Content\Images
             //playerSpaceShip.DirectionImage = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/Content/Images/"), imageFileName);
-            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = "/Content/Images/darteast.png";
+            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = "  /Content/Images/darteast.png";
             playerSpaceShip.ProcessTurn();
 
         }
@@ -136,10 +136,11 @@ namespace SpaceRogueRevolution.Models
             }
         }
 
-        internal List<string> GetOpenJobsForPlanet(int planet)
+        internal List<Job> GetOpenJobsForPlanet(int planet)
         {
-            return new List<string> { "(123) - Computer Transport Job $32000","(143) - Transfer Prisoner $87364","(873) Cargo - Beer","(763) Cargo - Juice","(21) Passengers - Hockey Team" };
 
+            var selectedPlanet = (Planet)gameObjects.ToList().FirstOrDefault(g => g.ID == planet);
+            return selectedPlanet.jobs;
         }
     }
 }

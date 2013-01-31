@@ -25,6 +25,7 @@ namespace SpaceRogueRevolution.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Sync(List<Tile> map)
 
@@ -33,7 +34,8 @@ namespace SpaceRogueRevolution.Controllers
             SetGalaxy(galaxy);
             galaxy.TakeComputerActions();
             galaxy.UpdateGameObjectsToMap();
-            return Json(galaxy);
+            //ViewBag.SRR = true;
+            return Json(galaxy.map);
         }
 
         [HttpPost]
@@ -54,7 +56,8 @@ namespace SpaceRogueRevolution.Controllers
         {
             Galaxy galaxy = GetGalaxy(null);
             SetGalaxy(galaxy);
-            List<string> jobs = galaxy.GetOpenJobsForPlanet(planet);
+
+            List<Job> jobs = galaxy.GetOpenJobsForPlanet(planet);
             return Json(jobs);
         }
 

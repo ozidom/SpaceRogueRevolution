@@ -38,7 +38,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
             {
                 while (jobs.Count < 10)
                 {
-                    jobs.Add(JobFactory.CreateRandomJob(friendlyPlanets));
+                    jobs.Add(JobFactory.CreateRandomJob(9));
                 }
             }
 
@@ -112,7 +112,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Water:
                     return "/Content/Images/planetblue.png";
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
-                    return "/Content/Images/planetwhite.png";
+                    return "Content/Images/planetwhite.png";
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
                     return "/Content/Images/planetwhite.png";
             }
