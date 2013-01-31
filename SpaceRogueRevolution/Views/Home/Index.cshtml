@@ -29,9 +29,11 @@
     {
       // $("#dialog").dialog("open");
         var IsServerProcessing = false;
+        var currentJob = null;
         var clickCount = 0;
         var gameData;
         var jobs;
+        var docked = false;
 
         var drawScreen = function () {
             var loadedImages = 0;
@@ -109,11 +111,21 @@
                     jobs = data;
                     $('#message').text('');
                     for (var i = 0; i < data.length; i++) {
-                        $('#message').append(i, "<div>" + jobs[i].Description + "</div>");
+                        var planet = getPlanetByID(jobs[i].DestinationID);
+                        if (planet != null)
+                            $('#message').append(i, "<div>" + jobs[i].Description +  ":" + planet.Description + "</div>");
                     }
                      
                 }
             });
+        };
+
+        var getPlanetByID = function (id) {
+            for (var i = 0; i < gameData.length - 1; i++) {
+                if (gameData[i].ID == id)
+                    return gameData[i];
+            }
+            return null;
         };
 
         var getKeyBoardAction = function (evt) {
@@ -135,19 +147,49 @@
                     if (playerSpaceShip.row + 5 < 400)
                         gameData[10].row += 5;
                     break;
+                case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
+                    //jobs
+                    var jobText = '';
+                    if (docked) {
+                        var index = Math.abs(48 - evt.keyCode);
+                        currentJob = jobs[index];
+                        jobText = "You have picked up the job " + currentJob.Description;
+                    }
+                    else {
+                        jobText = "You are not docked";
+                    }
+                    $('#message').text(jobText);
+                    break;
                 default:
-                    sendCommandToServer(evt.keyCode);
+                    //sendCommandToServer(evt.keyCode);
                     break;
             }
             //check for dock
-            var docked = false;
+            var canDock = false;
             for (var i = 0; i < gameData.length-1; i++) {
                 if (intersect(gameData[i].col, gameData[i].row, gameData[10].col, gameData[10].row)) {
+                    canDock = true;
+                    if (currentJob == null) {
+                        $("#display").text('Docking');
+                        sendDockingCommandToServer(gameData[i].ID);
+                    }
+                    else {
+                        var planet = getPlanetByID(currentJob.DestinationID);
+                        if (planet != null) {
+                            if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row)) {
+                                alert("job is done");
+                            }
+                        }
+                    }
+                   
                     
-                    $("#display").text('Docking');
-                    sendDockingCommandToServer(gameData[i].ID);
                 }
             }
+
+            if (canDock)
+                docked = true;
+            else
+                docked = false;
             
         };
 
