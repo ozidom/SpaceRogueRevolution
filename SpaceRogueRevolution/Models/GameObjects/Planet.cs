@@ -112,15 +112,15 @@ namespace SpaceRogueRevolution.Models.GameObjects
             switch (type)
             {
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Desert:
-                    return "/Content/Images/planetbrown.png";
+                    return GameImages.DesertPlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Water:
-                    return "/Content/Images/planetblue.png";
+                    return GameImages.DesertPlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
-                    return "Content/Images/planetwhite.png";
+                    return GameImages.DesertPlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
-                    return "/Content/Images/planetwhite.png";
+                    return GameImages.DesertPlanet;
             }
-            return "/Content/Images/planetwhite.png";
+            return GameImages.DesertPlanet;
 
 
             //switch(type)

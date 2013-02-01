@@ -31,7 +31,7 @@ namespace SpaceRogueRevolution.Models
             map = new List<Tile>();
             AddPlanetsToGameObjects();
            
-            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = "/Content/Images/darteast.png", Description = "The old but reliable dart",Row=5,Col=5  };
+            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart",Row=5,Col=5  };
             gameObjects.Add(playerSpaceShip);
             UpdateGameObjectsToMap();
 
@@ -123,7 +123,7 @@ namespace SpaceRogueRevolution.Models
             }
             //C:\Code\MVC\SpaceRogueRevolution\SpaceRogueRevolution\Content\Images
             //playerSpaceShip.DirectionImage = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/Content/Images/"), imageFileName);
-            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = "  /Content/Images/darteast.png";
+            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = GameImages.Dart;
             playerSpaceShip.ProcessTurn();
 
         }

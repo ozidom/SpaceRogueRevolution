@@ -12,17 +12,13 @@
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
 <div id ="menu" style="position:absolute;top:0px;left:500px" >
-    <ul>
-          <li>
+
               <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
-          </li>
-          <li>
+       
               <input type="button" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
-          </li>
-          <li>
+         
               <input type="button" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
-          </li>
-    </ul>
+ 
 </div>
 <div id ="serverprocessingdisplay" style="position:absolute;top:150px;left:0px;z-index:10;background-color:red;font-size:18pt" >Contacting Server...</div>
 
@@ -36,26 +32,42 @@
         <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
     </div> 
 </div>
-<div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:500px;width:500px">
+<div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
     <div>
           <p>Space Rogue Revolution - Episode 1 : The Big Jobs. This is the first installment of a roguelike space adventure game. This is
               the first 1GAM entry
           </p>
     </div>
     <div style="position:absolute;vertical-align:bottom">
-        <input type="button" value="X" onclick="$('#AboutDiv').hide(1000);" />
+        <input type="button" value="Close" onclick="$('#AboutDiv').hide(1000);" />
     </div> 
 </div>
-<div id="HowToPlayDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:500px;width:500px">
+<div id="HowToPlayDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
     <div>
-          <p>How to Play...
+          <p>To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will 
+              auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs
+              destination. You can refuel by the R key and you can buy food using the F key.
           </p>
     </div>
     <div style="position:absolute;vertical-align:bottom">
         <input type="button" value="X" onclick="$('#HowToPlayDiv').hide(1000);" />
     </div> 
 </div>
-
+<div id="BugsDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
+    <div>
+          <p>Server sleep used to handle the creation of planet jobs
+          </p>
+        <p>Other planet images not working
+          </p>
+        <p>Page Refresh not working
+          </p>
+        <p>Server delay significant
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">
+        <input type="button" value="X" onclick="$('#BugsDiv').hide(1000);" />
+    </div> 
+</div>
 <script type="text/javascript">
     $(document).ready(function()
     {
