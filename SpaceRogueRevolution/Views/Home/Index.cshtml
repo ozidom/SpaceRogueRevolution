@@ -11,18 +11,19 @@
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
-<div id ="menu" style="position:absolute;top:0px;left:500px" >
-
-              <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
-       
-              <input type="button" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
-         
-              <input type="button" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
+<div id ="menu" style="position:absolute;top:0px;left:500px;height:50px" >
+      <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
+      <input type="button" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
+      <input type="button" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
+</div>
+<div id ="titleDiv" style="font-family:'Comic Sans MS';font-size:20pt ;position:absolute;top:50px;left:500px;height:200px" >
+    Space Rogue Revolution - the big jobs
+        
  
 </div>
 <div id ="serverprocessingdisplay" style="position:absolute;top:150px;left:0px;z-index:10;background-color:red;font-size:18pt" >Contacting Server...</div>
 
-<div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px">
+<div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px;z-index:10">
     <div>
           <p>Welcome to the galaxy, You are the captain of the dart. Travel to different planets to pickup jobs and collect money. If you 
               have more than 100 million credits you win. Its that simple...
@@ -32,17 +33,17 @@
         <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
     </div> 
 </div>
-<div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
+<div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:blue;color:white;height:300px;width:500px;z-index:8">
     <div>
           <p>Space Rogue Revolution - Episode 1 : The Big Jobs. This is the first installment of a roguelike space adventure game. This is
-              the first 1GAM entry
+              the first 1GAM entry.    
           </p>
     </div>
     <div style="position:absolute;vertical-align:bottom">
         <input type="button" value="Close" onclick="$('#AboutDiv').hide(1000);" />
     </div> 
 </div>
-<div id="HowToPlayDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
+<div id="HowToPlayDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px;z-index:6">
     <div>
           <p>To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will 
               auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs
@@ -50,10 +51,10 @@
           </p>
     </div>
     <div style="position:absolute;vertical-align:bottom">
-        <input type="button" value="X" onclick="$('#HowToPlayDiv').hide(1000);" />
+        <input type="button" value="Close" onclick="$('#HowToPlayDiv').hide(1000);" />
     </div> 
 </div>
-<div id="BugsDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px">
+<div id="BugsDiv" style="position:absolute;top:100px;left:500px;background-color:darkred;color:white;height:300px;width:500px;z-index:3">
     <div>
           <p>Server sleep used to handle the creation of planet jobs
           </p>
@@ -63,10 +64,22 @@
           </p>
         <p>Server delay significant
           </p>
+        <p>Game Balance - jobs and money and win condition and limit rounds
+          </p>
+        <p>Picking the wrong job - job selected is the wrong one
+          </p>
+        <p>Planets not updating job
+          </p>
+         <p>Starship not updating
+          </p>
+        <p>Game Over should do something a bit smarter - should at least open home page
+          </p>
     </div>
     <div style="position:absolute;vertical-align:bottom">
-        <input type="button" value="X" onclick="$('#BugsDiv').hide(1000);" />
+        <input type="button" value="Close" onclick="$('#BugsDiv').hide(1000);" />
     </div> 
+</div>
+<div id="GameDiv" style="position:absolute;top:100px;left:500px;background-color:black;color:white;height:300px;width:500px;font-size:8pt";z-index:0>
 </div>
 <script type="text/javascript">
     $(document).ready(function()
@@ -79,6 +92,7 @@
         var jobs;
         var docked = false;
         var cash = 0;
+        var jobText = "";
 
         $('#AboutDiv').hide();
         $('#HowToPlayDiv').hide();
@@ -142,6 +156,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     gameData = data;
+                    
                     $('#serverprocessingdisplay').hide(1000);
                     IsServerProcessing = false;
                     drawScreen();
@@ -158,15 +173,17 @@
                 contentType: 'application/json',
                 success: function (data) {
                     jobs = data;
-                    $('#message').text('');
+                    $('#GameDiv').text('');
+                    $('#GameDiv').show(1000);
                     for (var i = 0; i < data.length; i++) {
                         var planet = getPlanetByID(jobs[i].DestinationID);
-                        if (planet != null)
-                            $('#message').append(i, "<div>" + jobs[i].Description +  ":" + planet.Description + "</div>");
+                        if (planet != null) {
+                            jobString = jobs[i].Description + ":" + planet.Description;
+                            $('#GameDiv').append("<div> ID: " + i + " -" + jobString + "</div>");
+                        }
                     }
-                     
                 }
-            });
+            }); 
         };
 
         var getPlanetByID = function (id) {
@@ -177,6 +194,7 @@
             return null;
         };
 
+        //KeyBoard Handler
         var getKeyBoardAction = function (evt) {
             var playerSpaceShip = gameData[10];
             switch (evt.keyCode) {
@@ -198,16 +216,25 @@
                     break;
                 case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
                     //jobs
-                    var jobText = '';
                     if (docked) {
                         var index = Math.abs(48 - evt.keyCode);
                         currentJob = jobs[index];
+                        alert(index);
+                        alert(currentJob.Description);
                         jobText = "You have picked up the job " + currentJob.Description;
                     }
                     else {
                         jobText = "You are not docked";
                     }
-                    $('#message').text(jobText);
+                    $('#GameDiv').text(jobText);
+                    break;
+                case 74:
+                    if (currentJob != null) {
+                        $('#GameDiv').text(currentJob.Description);
+                    }
+                    else {
+                        $('#GameDiv').text("You don't have a job");
+                    }
                     break;
                 default:
                     //sendCommandToServer(evt.keyCode);
@@ -219,7 +246,7 @@
                 if (intersect(gameData[i].col, gameData[i].row, gameData[10].col, gameData[10].row)) {
                     canDock = true;
                     if (currentJob == null) {
-                        $("#display").text('Docking');
+                        $("#GameDiv").text('Docking');
                         sendDockingCommandToServer(gameData[i].ID);
                     }
                     else {
@@ -227,7 +254,7 @@
                         if (planet != null) {
                             if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row)) {
                                 cash += currentJob.Value;
-                                $('#message').text("job done you earned "+ currentJob.Value);
+                                $('#GameDiv').text("job done you earned " + currentJob.Value);
                                 if (cash >= 1000) {
                                     alert('game over you have won');
                                 }
@@ -282,7 +309,7 @@
             for(var i=0;i<gameData.length;i++)
             {
                 if (intersect(gameData[i].col, gameData[i].row, fixedX, fixedY)) {
-                    $("#display").text(gameData[i].Description);
+                    $("#GameDiv").text(gameData[i].Description);
                 }
             }
             $("#message").text("clicked: " + fixedX + ":" + fixedY);
