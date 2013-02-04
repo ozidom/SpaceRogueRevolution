@@ -30,11 +30,16 @@ namespace SpaceRogueRevolution.Models
             //locationPlayer = new Coord { Row = 5, Col = 5 };
             map = new List<Tile>();
             AddPlanetsToGameObjects();
-           
+            AddSpaceShipsToGameObjects();
             playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart",Row=5,Col=5  };
             gameObjects.Add(playerSpaceShip);
             UpdateGameObjectsToMap();
+        }
 
+        private void AddSpaceShipsToGameObjects()
+        {
+            Spaceship s = new Spaceship { Col = 100, Row = 100, CurrentFood = 10, CurrentFuel = 10, Description = "Test", Evasion = 4, Impounded = false, DirectionImage = GameImages.Dart, ID = 100 };
+            gameObjects.Add(s);
         }
 
 

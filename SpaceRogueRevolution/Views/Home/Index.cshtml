@@ -6,22 +6,21 @@
 
 <div id="canvasContainer">
 
-    <canvas onmousedown="" id="canvas" height="400" width="800" style="position:absolute;top:0px;left:0px" ></canvas>
+    <canvas  height="500" width="500" id="canvas" class="canvas" ></canvas>
     
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
-<div id ="menu" style="position:absolute;top:0px;left:500px;height:50px" >
+<div id ="titleDiv"class="titleDiv" style="width:100px"  >
+    SRR-the big jobs
+</div>
+<div id ="menu" class="menu" >
       <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
-      <input type="button" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
-      <input type="button" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
+      <input type="button" class="inputSibling" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
+      <input type="button" class="inputSibling" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
 </div>
-<div id ="titleDiv" style="font-family:'Comic Sans MS';font-size:20pt ;position:absolute;top:50px;left:500px;height:200px" >
-    Space Rogue Revolution - the big jobs
-        
- 
-</div>
-<div id ="serverprocessingdisplay" style="position:absolute;top:150px;left:0px;z-index:10;background-color:red;font-size:18pt" >Contacting Server...</div>
+
+<div id ="serverprocessingdisplay" class="serverprocessingdisplay"  >Contacting Server...</div>
 
 <div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px;z-index:10">
     <div>
@@ -29,7 +28,7 @@
               have more than 100 million credits you win. Its that simple...
           </p>
     </div>
-    <div style="position:absolute;vertical-align:bottom">
+    <div style="position:absolute;vertical-align:bottom">   
         <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
     </div> 
 </div>
@@ -79,7 +78,7 @@
         <input type="button" value="Close" onclick="$('#BugsDiv').hide(1000);" />
     </div> 
 </div>
-<div id="GameDiv" style="position:absolute;top:100px;left:500px;background-color:black;color:white;height:300px;width:500px;font-size:8pt";z-index:0>
+<div id="GameDiv" class="GameDiv" >
 </div>
 <script type="text/javascript">
     $(document).ready(function()
@@ -102,7 +101,7 @@
             var loadedImages = 0;
             var images = [];
             var ctx = document.getElementById('canvas').getContext('2d');
-            ctx.fillStyle = "rgba(0, 0, 56, 70)";
+            ctx.fillStyle = "rgba(0,0,0,1)";//"rgba(0, 0, 56, 70)";
             ctx.fillRect(0, 0, 500, 500);
             var draw = function () {
                 for (i = 0; i < gameData.length; i++) {
