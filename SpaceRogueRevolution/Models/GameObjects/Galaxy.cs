@@ -12,10 +12,8 @@ namespace SpaceRogueRevolution.Models
     public class Galaxy
     {
         public List<Tile> map;
-        private Coord locationPlayer;
         private List<BaseGameObject> gameObjects;
         public string Message;
-        public Spaceship playerSpaceShip;
         public IGameControl gameControl;
 
         public Galaxy()
@@ -29,16 +27,16 @@ namespace SpaceRogueRevolution.Models
         {
             //locationPlayer = new Coord { Row = 5, Col = 5 };
             map = new List<Tile>();
+            Spaceship playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart", Row = 5, Col = 5 };
+            gameObjects.Add(playerSpaceShip);
             AddPlanetsToGameObjects();
             AddSpaceShipsToGameObjects();
-            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart",Row=5,Col=5  };
-            gameObjects.Add(playerSpaceShip);
             UpdateGameObjectsToMap();
         }
 
         private void AddSpaceShipsToGameObjects()
         {
-            Spaceship s = new Spaceship { Col = 100, Row = 100, CurrentFood = 10, CurrentFuel = 10, Description = "Test", Evasion = 4, Impounded = false, DirectionImage = GameImages.Dart, ID = 100 };
+            Spaceship s = new Spaceship { Col = 100, Row = 100, CurrentFood = 10, CurrentFuel = 10, Description = "Test", Evasion = 4, Impounded = false, DirectionImage = GameImages.Freighter, ID = 100 };
             gameObjects.Add(s);
         }
 
@@ -51,7 +49,6 @@ namespace SpaceRogueRevolution.Models
             {
                 if (go is Imapable)
                 {
-                    Debug.WriteLine("mappable");
                     map.Add(((Imapable)go).GetTileForMap());
                 }
             });
@@ -69,69 +66,16 @@ namespace SpaceRogueRevolution.Models
 
         }
 
-
-
-        internal void MovePlayer(Coord coord)
-        {
-            playerSpaceShip.Row = coord.Row;
-            playerSpaceShip.Col = coord.Col;
-
-            //loop thru the planets and work out if docked
-        }
-
         internal void ProcessCommand(Command command)
         {
             string commandText = gameControl.takeAction(command);
-            TakePlayerActionFromCommand(commandText);
             TakeComputerActions();
             UpdateGameObjectsToMap();
 
 
         }
 
-        internal void TakePlayerActionFromCommand(string commandText)
-        {
-            string imageFileName = "";
-            switch(commandText)
-            {
-                //case "n":
-                //    if (playerSpaceShip.Row - 5 > 0)
-                //    {
-                //        playerSpaceShip.Row -= 5;
-                //        imageFileName = "dartnorth.png";
-                //    }
-                //    break;
-                //case "s":
-                //    if (playerSpaceShip.Row + 5 < 400)
-                //    {
-                //        playerSpaceShip.Row += 5;
-                //        imageFileName = "dartsouth.png";
-                //    }
-                //    break;
-                //case "e":
-                //    if (playerSpaceShip.Col + 5 < 400)
-                //    {
-                //        playerSpaceShip.Col += 5;
-                //        imageFileName = "darteast.png";
-                //    }
-                //    break;
-                //case "w":
-                //    if (playerSpaceShip.Col - 5 > 0)
-                //    {
-                //        playerSpaceShip.Col -= 5;
-                //        imageFileName = "dartwest.png";
-                //    }
-                //    break;
-                case "j":
-                    //list jobs for current planet
-                    break;
-            }
-            //C:\Code\MVC\SpaceRogueRevolution\SpaceRogueRevolution\Content\Images
-            //playerSpaceShip.DirectionImage = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/Content/Images/"), imageFileName);
-            playerSpaceShip.DirectionImage = playerSpaceShip.DirectionImage = GameImages.Dart;
-            playerSpaceShip.ProcessTurn();
-
-        }
+   
 
         internal void TakeComputerActions()
         {
@@ -143,9 +87,16 @@ namespace SpaceRogueRevolution.Models
 
         internal List<Job> GetOpenJobsForPlanet(int planet)
         {
+            var planets = gameObjects.Where(o => o is Planet);
+            var selectedPlanet = (Planet)planets.FirstOrDefault(g => g.ID == planet);
 
-            var selectedPlanet = (Planet)gameObjects.ToList().FirstOrDefault(g => g.ID == planet);
             return selectedPlanet.jobs;
+        }
+
+        internal void UpdatePlayerStarshipToGameObject(Tile tile)
+        {
+            Spaceship playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart", Row = tile.row, Col = tile.col };
+            gameObjects[0] = playerSpaceShip;
         }
     }
 }

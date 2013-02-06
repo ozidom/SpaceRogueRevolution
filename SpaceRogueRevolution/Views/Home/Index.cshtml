@@ -5,14 +5,12 @@
 <script src="~/Scripts/jquery-ui-1.9.2.js"></script>
 
 <div id="canvasContainer">
-
     <canvas  height="500" width="500" id="canvas" class="canvas" ></canvas>
-    
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
-<div id ="titleDiv"class="titleDiv" style="width:100px"  >
-    SRR-the big jobs
+<div id ="titleDiv"class="titleDiv" >
+    Space Rogue Revolution -the big jobs
 </div>
 <div id ="menu" class="menu" >
       <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
@@ -30,6 +28,15 @@
     </div>
     <div style="position:absolute;vertical-align:bottom">   
         <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
+    </div> 
+</div>
+<div id="gameOverScreen" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px;z-index:10">
+    <div>
+          <p>You won well done  - thats a great result!!!
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">   
+        <input type="button" value="OK" onclick="location.reload(true);" />
     </div> 
 </div>
 <div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:blue;color:white;height:300px;width:500px;z-index:8">
@@ -96,12 +103,13 @@
         $('#AboutDiv').hide();
         $('#HowToPlayDiv').hide();
         $('#BugsDiv').hide();
+        $('#gameOverScreen').hide();
 
         var drawScreen = function () {
             var loadedImages = 0;
             var images = [];
             var ctx = document.getElementById('canvas').getContext('2d');
-            ctx.fillStyle = "rgba(0,0,0,1)";//"rgba(0, 0, 56, 70)";
+            ctx.fillStyle = "rgba(0,0,0,1)";
             ctx.fillRect(0, 0, 500, 500);
             var draw = function () {
                 for (i = 0; i < gameData.length; i++) {
@@ -195,31 +203,31 @@
 
         //KeyBoard Handler
         var getKeyBoardAction = function (evt) {
-            var playerSpaceShip = gameData[10];
+            var playerSpaceShip = gameData[0];
             switch (evt.keyCode) {
                 case 65:
                     if (playerSpaceShip.col - 5 >=0)
-                        gameData[10].col -= 5;
+                        gameData[0].col -= 5;
                     break;
                 case 87:
                     if (playerSpaceShip.row - 5 >= 0)
-                        gameData[10].row -= 5;
+                        gameData[0].row -= 5;
                     break;
                 case 83:
                     if (playerSpaceShip.col + 5 < 500)
-                        gameData[10].col += 5;
+                        gameData[0].col += 5;
                     break;
                 case 90:
                     if (playerSpaceShip.row + 5 < 500)
-                        gameData[10].row += 5;
+                        gameData[0].row += 5;
                     break;
                 case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
                     //jobs
                     if (docked) {
                         var index = Math.abs(48 - evt.keyCode);
                         currentJob = jobs[index];
-                        alert(index);
-                        alert(currentJob.Description);
+                        //alert(index);
+                        //alert(currentJob.Description);
                         jobText = "You have picked up the job " + currentJob.Description;
                     }
                     else {
@@ -240,36 +248,38 @@
                     break;
             }
             //check for dock
-            var canDock = false;
-            for (var i = 0; i < gameData.length-1; i++) {
-                if (intersect(gameData[i].col, gameData[i].row, gameData[10].col, gameData[10].row)) {
-                    canDock = true;
+            var oldDockState = docked;
+            docked = false;
+            for (var i = 1; i < gameData.length-1; i++) {
+                if (intersect(gameData[i].col, gameData[i].row, gameData[0].col, gameData[0].row)) {
+                    docked = true;
                     if (currentJob == null) {
                         $("#GameDiv").text('Docking');
                         sendDockingCommandToServer(gameData[i].ID);
                     }
                     else {
                         var planet = getPlanetByID(currentJob.DestinationID);
+
+
                         if (planet != null) {
                             if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row)) {
                                 cash += currentJob.Value;
                                 $('#GameDiv').text("job done you earned " + currentJob.Value);
+                                alert('job done');
                                 if (cash >= 1000) {
-                                    alert('game over you have won');
+                                    //alert('game over you have won');
+                                    $('#gameOverScreen').show(1000);
                                 }
                                 currentJob = null;
                             }
                         }
                     }
-                   
-                    
                 }
+
             }
 
-            if (canDock)
-                docked = true;
-            else
-                docked = false;
+            if (oldDockState == true && docked == false)
+                    $("#GameDiv").text('');
             
         };
 

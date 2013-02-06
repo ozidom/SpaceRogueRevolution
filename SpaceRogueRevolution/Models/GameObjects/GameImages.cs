@@ -14,7 +14,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
         public static readonly string IcePlanet = ServerLoc + "Content/Images/planetwhite.png";
         public static readonly string GreenPlanet = ServerLoc + "/Content/Images/planetgreen.png";
         public static readonly string Dart = ServerLoc + "/Content/Images/darteast.png";
-
+        public static readonly string Freighter = ServerLoc + "/Content/Images/freighter.png";
 
     }
 }

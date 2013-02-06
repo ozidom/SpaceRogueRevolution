@@ -28,41 +28,32 @@ namespace SpaceRogueRevolution.Controllers
 
         [HttpPost]
         public ActionResult Sync(List<Tile> map)
-
         {
             Galaxy galaxy = GetGalaxy(map);
             SetGalaxy(galaxy);
+            if (map!= null)
+                galaxy.UpdatePlayerStarshipToGameObject(map[0]);
             galaxy.TakeComputerActions();
             galaxy.UpdateGameObjectsToMap();
-            //ViewBag.SRR = true;
             return Json(galaxy.map);
         }
 
         [HttpPost]
         public ActionResult TakeAction(string command)
         {
-            /*Galaxy galaxy = GetGalaxy(null);
-            if (command != null)
-            {
-                galaxy.Message = command.ToString();
-            }
-            galaxy.ProcessCommand(new Command { ID = int.Parse(command) });
-            SetGalaxy(galaxy);
-            return Json(galaxy);*/
+
             Galaxy galaxy = GetGalaxy(null);
             SetGalaxy(galaxy);
             galaxy.TakeComputerActions();
             galaxy.UpdateGameObjectsToMap();
-            //ViewBag.SRR = true;
             return Json(galaxy.map);
         }
 
-          [HttpPost]
+        [HttpPost]
         public ActionResult Docking(int planet)
         {
             Galaxy galaxy = GetGalaxy(null);
             SetGalaxy(galaxy);
-
             List<Job> jobs = galaxy.GetOpenJobsForPlanet(planet);
             return Json(jobs);
         }
@@ -80,9 +71,6 @@ namespace SpaceRogueRevolution.Controllers
             if (map != null)
             {
                 galaxy.map = map;
-                Tile playerSpaceShipTile = galaxy.map.Last();
-                galaxy.playerSpaceShip.Row = playerSpaceShipTile.row;
-                galaxy.playerSpaceShip.Col = playerSpaceShipTile.col;
             }
             return galaxy;
         }
@@ -99,76 +87,6 @@ namespace SpaceRogueRevolution.Controllers
         public ActionResult Create()
         {
             return View();
-        }
-
-        //
-        // POST: /Home/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Home/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Home/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Home/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Home/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
