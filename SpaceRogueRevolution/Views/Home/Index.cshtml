@@ -104,8 +104,10 @@
         $('#HowToPlayDiv').hide();
         $('#BugsDiv').hide();
         $('#gameOverScreen').hide();
+        
 
         var drawScreen = function () {
+            $('#gameDiv').show();
             var loadedImages = 0;
             var images = [];
             var ctx = document.getElementById('canvas').getContext('2d');
