@@ -14,6 +14,7 @@ namespace SpaceRogueRevolution.Models
         public int row { get; set; }
         public int col { get; set; }
         public string directionImage { get; set; }
+        public Spaceship gameObject { get; set; }
 
     }
 }

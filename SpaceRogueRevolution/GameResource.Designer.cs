@@ -61,11 +61,20 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Its all over.
+        ///   Looks up a localized string similar to You lost the ships been abandoned!!!!.
         /// </summary>
-        public static string GameOverText {
+        public static string GameLooseText {
             get {
-                return ResourceManager.GetString("GameOverText", resourceCulture);
+                return ResourceManager.GetString("GameLooseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You won well done.
+        /// </summary>
+        public static string GameWinText {
+            get {
+                return ResourceManager.GetString("GameWinText", resourceCulture);
             }
         }
         
