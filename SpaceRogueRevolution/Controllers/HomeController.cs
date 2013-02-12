@@ -11,7 +11,7 @@ namespace SpaceRogueRevolution.Controllers
     public class HomeController : Controller
     {
         //
-        // GET: /Home/
+        // GET: /Home
 
         public ActionResult Index()
         {
@@ -81,12 +81,6 @@ namespace SpaceRogueRevolution.Controllers
            Session["galaxy"] = galaxy;
            
         }
-        //
-        // GET: /Home/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        }
+    
     }
 }
