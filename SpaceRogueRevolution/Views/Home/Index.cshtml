@@ -74,6 +74,7 @@
         var intersectionRange = 10;             //intersection with a planet by starship is  plus or minus this
         var mouseDownXoffSet = 8;               //offset required to get an accurate X co-ord relative to the CANVAS
         var mouseDownYoffSet = 9;               //offset required to get an accurate Yco-ord relative to the CANVAS
+        var GameWinMoneyAmount = 1000;
 
         $('#AboutDiv').hide();
         $('#HowToPlayDiv').hide();
@@ -193,8 +194,9 @@
                     if (!docked) {
                         $('#GameDiv').text("You are not docked");
                     }
+                    else
                     if (gameData[0].gameObject != null) {
-                        if (gameData[0].gameObject.Money > 10) {
+                        if (gameData[0].gameObject.Money >= 10) {
                             gameData[0].gameObject.CurrentFuel += 100;
                             gameData[0].gameObject.Money = gameData[0].gameObject.Money - 10;
                             $('#GameDiv').text("You bought fuel");
@@ -244,37 +246,39 @@
             }
             
             var oldDockState = docked;
+            var displayMessage = String();
             docked = false;
             for (var i = 1; i < gameData.length-1; i++) {
-                if (intersect(gameData[i].col, gameData[i].row, gameData[0].col, gameData[0].row)) {
+                if (intersect(gameData[i].col, gameData[i].row, gameData[0].col, gameData[0].row))
+                {
                     var planet = getPlanetByCoords(gameData[i].col, gameData[i].row);
-                    if (planet.FileName != "/Content/Images/gas.png") {
+                    if (planet != null && planet.FileName != "/Content/Images/gas.png")
+                    {
                         docked = true;
-                        if (currentJob == null) {
-                            $("#GameDiv").text('Docking');
-                            var id = gameData[i].ID
-                            commandObject = { planet: id }
-                            callServer(id, '@Url.Action("Docking","Home")',processJobData,commandObject);
-                        }
-                        else
-                        {
-                            if (planet != null)
-                            {
-                                if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row))
-                                {
-                                    cash += currentJob.Value;
-                                    $('#GameDiv').text("job done you earned " + currentJob.Value);
-                                    gameData[0].gameObject.Money = cash;
-                                    currentJob = null;
-                                }
+                        
+                        var id = gameData[i].ID
+                        commandObject = { planet: id }
+                        if (currentJob == null)
+                            callServer(id, '@Url.Action("Docking","Home")', processJobData, commandObject);
+                        else {
+
+                            var jobPlanet = getPlanetByID(currentJob.DestinationID);
+
+                            if (jobPlanet != null && intersect(jobPlanet.col, jobPlanet.row, gameData[i].col, gameData[i].row)) {
+                                cash += currentJob.Value;
+                                displayMessage =  "job done you earned " + currentJob.Value;
+                                gameData[0].gameObject.Money += currentJob.Value;
+                                currentJob = null;
+                                break;
+                               
                             }
                         }
                     }
                 }
-
             }
+            $("#GameDiv").text(displayMessage);
 
-            if (cash >= 1000) {
+            if (cash >= GameWinMoneyAmount) {
                 $('#gameWinScreen').show(1000);
             }
 
