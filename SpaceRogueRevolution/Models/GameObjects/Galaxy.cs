@@ -14,6 +14,7 @@ namespace SpaceRogueRevolution.Models
         public List<Tile> map;
         private List<BaseGameObject> gameObjects;
         public string Message;
+        Spaceship playerSpaceShip;
         public IGameControl gameControl;
 
         public Galaxy()
@@ -25,21 +26,13 @@ namespace SpaceRogueRevolution.Models
 
         private void BuildMap()
         {
-            //locationPlayer = new Coord { Row = 5, Col = 5 };
             map = new List<Tile>();
-            Spaceship playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart", Row = 5, Col = 5 };
+            Debug.WriteLine("Building Map");
+            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Row = 5, Col = 5, CurrentFuel = 100,CurrentFood =100, Money = 50 };
             gameObjects.Add(playerSpaceShip);
             AddPlanetsToGameObjects();
-            AddSpaceShipsToGameObjects();
             UpdateGameObjectsToMap();
         }
-
-        private void AddSpaceShipsToGameObjects()
-        {
-            Spaceship s = new Spaceship { Col = 100, Row = 100, CurrentFood = 10, CurrentFuel = 10, Description = "Test", Evasion = 4, Impounded = false, DirectionImage = GameImages.Freighter, ID = 100 };
-            gameObjects.Add(s);
-        }
-
 
         public void UpdateGameObjectsToMap()
         {
@@ -95,8 +88,25 @@ namespace SpaceRogueRevolution.Models
 
         internal void UpdatePlayerStarshipToGameObject(Tile tile)
         {
-            Spaceship playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Description = "The old but reliable dart", Row = tile.row, Col = tile.col };
+            //playerSpaceShip.Col = tile.col;
+           // playerSpaceShip.Row = tile.row;
+            if (tile.gameObject != null)
+            {
+                playerSpaceShip  = tile.gameObject;
+                playerSpaceShip.Row = tile.row;
+                playerSpaceShip.Col = tile.col;
+                /*playerSpaceShip.Row = tempSpaceShip.Row;
+                playerSpaceShip.Col = tempSpaceShip.Row;
+                playerSpaceShip.Money = tempSpaceShip.Money;
+                playerSpaceShip.CurrentFood = tempSpaceShip.CurrentFood;
+                playerSpaceShip.CurrentFuel = tempSpaceShip.CurrentFuel;*/
+
+            }
+            playerSpaceShip.ProcessTurn();
+
+
             gameObjects[0] = playerSpaceShip;
+            
         }
     }
 }

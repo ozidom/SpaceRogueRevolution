@@ -18,13 +18,6 @@ namespace SpaceRogueRevolution.Models.Factory
         int CostLandingPermit = Utility.Rnd(10);
         int LandingPermitID = Utility.Rnd(10);            //the ID or code for the landing permit
 
-
-        //All availabled jobs
-
-        List<Spaceship> spaceShips = GetRandomSpaceship();  //Spaceships docked  
-        //if (friendlyPlanets != null)
-        //    List<Job> jobs = GetRandomJobs(6,friendlyPlanets);
-
         Weapon weapon = GetRandomGroundDefenceWeapon();
 
 
@@ -44,43 +37,21 @@ namespace SpaceRogueRevolution.Models.Factory
            
             p.Row = Utility.Rnd(400);
             p.Col = Utility.Rnd(400);
-            List<Spaceship> spaceShips = GetRandomSpaceship();  //Spaceships docked  
-            //if (friendlyPlanets != null)
-            //List<Job> newJobs = new List<Job>();
-            //newJobs.Clear();
-            ////Job j = new Job();
-            //for (int i=0; i < 9;i++ )
-            //{
-            //    int value = 0;
-            //    string desc = "";
-            //    JobFactory.GetRandomDescriptionAndValue(out desc,out value);
-            //    Job j = new Job { ID = id++, Description = desc, DestinationID = Utility.Rnd(9), Value = Utility.Rnd(1000) }; 
-            //    j = JobFactory.CreateRandomJob(i);
-            //    System.Threading.Thread.Sleep(10);
-            //    newJobs.Add(j);
-            //}
-
-            p.jobs = GetRandomJobs();
+           
+            if (p.type != Utility.PlanetType.Gas)
+                p.jobs = GetRandomJobs();
 
              p.weapon = GetRandomGroundDefenceWeapon();
 
             return p;
         }
 
-        
-
-        //private string GetRandomName()
-        //{
-        //    string firstbit
-        //}
-
         private static Utility.PlanetType GetRandomPlanetType()
         {
             Utility.PlanetType planetType = new Utility.PlanetType();
-            int i = Utility.Rnd(3);
+            int i = Utility.Rnd(4);
             switch (i)
             {
-                    
                 case 0:
                     planetType = Utility.PlanetType.Desert;
                     break;
@@ -122,11 +93,6 @@ namespace SpaceRogueRevolution.Models.Factory
                 System.Threading.Thread.Sleep(10);
             }
             return jobs;
-        }
-
-        private static List<Spaceship> GetRandomSpaceship()
-        {
-            return null;
         }
 
         private static string GenRandomName()

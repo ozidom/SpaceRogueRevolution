@@ -7,6 +7,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
 {
     public class Spaceship : BaseGameObject,Imapable
     {
+        public string Name { get; set; }
         public int MaxShields { get; set; }
         public int CurrentShields { get; set; }
         public int MaxPower { get; set; }
@@ -50,8 +51,20 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
         public Tile GetTileForMap()
         {
-            Tile t = new Tile { ID = 1, FileName = DirectionImage , Description = this.Description, row = Row, col = this.Col };
+            Tile t = new Tile { ID = 1, FileName = DirectionImage , Description = this.Description, row = Row, col = this.Col, gameObject = this };
             return t;
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return String.Format("The {0} fuel : {1} , food {2} , ${3} credits ",Name,CurrentFuel,CurrentFood,Money);
+            }
+            set
+            {
+                base.Description = value;
+            }
         }
     }
 }

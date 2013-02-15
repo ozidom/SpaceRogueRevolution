@@ -21,7 +21,7 @@ namespace SpaceRogueRevolution.Models.Factory
             string description = "";
             Random r = new Random();
             GetRandomDescriptionAndValue(out description,out value);
-            int destinationID = r.Next(9);
+            int destinationID = r.Next(7);
             return new Job { ID = id++, Description = description, DestinationID = destinationID, Value = value };  
         }
 

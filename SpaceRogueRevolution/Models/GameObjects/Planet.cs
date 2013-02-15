@@ -114,28 +114,13 @@ namespace SpaceRogueRevolution.Models.GameObjects
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Desert:
                     return GameImages.DesertPlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Water:
-                    return GameImages.DesertPlanet;
+                    return GameImages.WaterPlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
-                    return GameImages.DesertPlanet;
+                    return GameImages.IcePlanet;
                 case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
-                    return GameImages.DesertPlanet;
+                    return GameImages.GasPlanet;
             }
             return GameImages.DesertPlanet;
-
-
-            //switch(type)
-            //{
-            //    case SpaceRogueRevolution.Models.Utility.PlanetType.Desert:
-            //        return "/Content/Images/planetbrown.png";
-            //    case SpaceRogueRevolution.Models.Utility.PlanetType.Water:
-            //        return "/Content/Images/planetblue.png";
-            //    case SpaceRogueRevolution.Models.Utility.PlanetType.Ice:
-            //        return "/Content/Images/planetwhite.png";
-            //    case SpaceRogueRevolution.Models.Utility.PlanetType.Gas:
-            //        return "/Content/Images/planetyellow.png";
-            //}
-
-            //return "/Content/Images/planetyellow.png"; ;
         }
 
     
