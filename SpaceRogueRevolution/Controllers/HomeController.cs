@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SpaceRogueRevolution.Models;
+using SpaceRogueRevolution.Models.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,82 +26,67 @@ namespace SpaceRogueRevolution.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Sync(List<Tile> map)
+        {
+            Galaxy galaxy = GetGalaxy(map);
+            SetGalaxy(galaxy);
+            if (map!= null)
+                galaxy.UpdatePlayerStarshipToGameObject(map[0]);
+            galaxy.TakeComputerActions();
+            galaxy.UpdateGameObjectsToMap();
+            return Json(galaxy.map);
+        }
+
+        [HttpPost]
+        public ActionResult TakeAction(string command)
+        {
+
+            Galaxy galaxy = GetGalaxy(null);
+            SetGalaxy(galaxy);
+            galaxy.TakeComputerActions();
+            galaxy.UpdateGameObjectsToMap();
+            return Json(galaxy.map);
+        }
+
+        [HttpPost]
+        public ActionResult Docking(int planet)
+        {
+            Galaxy galaxy = GetGalaxy(null);
+            SetGalaxy(galaxy);
+            List<Job> jobs = galaxy.GetOpenJobsForPlanet(planet);
+            return Json(jobs);
+        }
+
+        private Galaxy GetGalaxy(List<Tile> map)
+        {
+            Galaxy galaxy;
+            if (Session["galaxy"] == null)
+            {
+                galaxy = new Galaxy();
+                Session["galaxy"] = galaxy;
+            }
+
+            galaxy = (Galaxy)Session["galaxy"];
+            if (map != null)
+            {
+                galaxy.map = map;
+            }
+            return galaxy;
+        }
+
+        private void SetGalaxy(Galaxy galaxy)
+        {
+           
+           Session["galaxy"] = galaxy;
+           
+        }
         //
         // GET: /Home/Create
 
         public ActionResult Create()
         {
             return View();
-        }
-
-        //
-        // POST: /Home/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Home/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Home/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Home/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Home/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

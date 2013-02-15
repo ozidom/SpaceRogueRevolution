@@ -1,5 +1,331 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.2.js"></script>
 
-@Html.Action("Index","Galaxy")
+<div id="canvasContainer">
+    <canvas  height="500" width="500" id="canvas" class="canvas" ></canvas>
+</div>
+<div id ="message" style="position:absolute;top:420px;left:0px" ></div>
+<div id ="display" style="position:absolute;top:450px;left:0px" ></div>
+<div id ="titleDiv"class="titleDiv" >
+    Space Rogue Revolution -the big jobs
+</div>
+<div id ="menu" class="menu" >
+      <input type="button" value="About" onclick="$('#AboutDiv').show(1000);" />
+      <input type="button" class="inputSibling" value="How to Play" onclick="$('#HowToPlayDiv').show(1000);" />
+      <input type="button" class="inputSibling" value="Bugs" onclick="$('#BugsDiv').show(1000);" />
+</div>
+
+<div id ="serverprocessingdisplay" class="serverprocessingdisplay"  >Contacting Server...</div>
+
+<div id="dialog" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px;z-index:10">
+    <div>
+          <p>Welcome to the galaxy, You are the captain of the dart. Travel to different planets to pickup jobs and collect money. If you 
+              have more than 100 million credits you win. Its that simple...
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">   
+        <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
+    </div> 
+</div>
+<div id="gameOverScreen" style="position:absolute;top:0px;left:0px;z-index:5;background-color:grey;color:white;height:500px;width:500px;z-index:10">
+    <div>
+          <p>You won well done  - thats a great result!!!
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">   
+        <input type="button" value="OK" onclick="location.reload(true);" />
+    </div> 
+</div>
+<div id="AboutDiv" style="position:absolute;top:100px;left:500px;background-color:blue;color:white;height:300px;width:500px;z-index:8">
+    <div>
+          <p>Space Rogue Revolution - Episode 1 : The Big Jobs. This is the first installment of a roguelike space adventure game. This is
+              the first 1GAM entry.    
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">
+        <input type="button" value="Close" onclick="$('#AboutDiv').hide(1000);" />
+    </div> 
+</div>
+<div id="HowToPlayDiv" style="position:absolute;top:100px;left:500px;background-color:green;color:white;height:300px;width:500px;z-index:6">
+    <div>
+          <p>To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will 
+              auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs
+              destination. You can refuel by the R key and you can buy food using the F key.
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">
+        <input type="button" value="Close" onclick="$('#HowToPlayDiv').hide(1000);" />
+    </div> 
+</div>
+<div id="BugsDiv" style="position:absolute;top:100px;left:500px;background-color:darkred;color:white;height:300px;width:500px;z-index:3">
+    <div>
+          <p>Server sleep used to handle the creation of planet jobs
+          </p>
+        <p>Other planet images not working
+          </p>
+        <p>Page Refresh not working
+          </p>
+        <p>Server delay significant
+          </p>
+        <p>Game Balance - jobs and money and win condition and limit rounds
+          </p>
+        <p>Picking the wrong job - job selected is the wrong one
+          </p>
+        <p>Planets not updating job
+          </p>
+         <p>Starship not updating
+          </p>
+        <p>Game Over should do something a bit smarter - should at least open home page
+          </p>
+    </div>
+    <div style="position:absolute;vertical-align:bottom">
+        <input type="button" value="Close" onclick="$('#BugsDiv').hide(1000);" />
+    </div> 
+</div>
+<div id="GameDiv" class="GameDiv" >
+</div>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+      // $("#dialog").dialog("open");
+        var IsServerProcessing = false;
+        var currentJob = null;
+        var clickCount = 0;
+        var gameData;
+        var jobs;
+        var docked = false;
+        var cash = 0;
+        var jobText = "";
+
+        $('#AboutDiv').hide();
+        $('#HowToPlayDiv').hide();
+        $('#BugsDiv').hide();
+        $('#gameOverScreen').hide();
+
+        var drawScreen = function () {
+            var loadedImages = 0;
+            var images = [];
+            var ctx = document.getElementById('canvas').getContext('2d');
+            ctx.fillStyle = "rgba(0,0,0,1)";
+            ctx.fillRect(0, 0, 500, 500);
+            var draw = function () {
+                for (i = 0; i < gameData.length; i++) {
+                    var item = gameData[i];
+                    ctx.drawImage(images[i], item.col, item.row, 20, 20);
+                };
+            };
+
+            for (i = 0; i < gameData.length; i++) {
+                var image = new Image();
+                var item = gameData[i];
+                image.addEventListener("load", function () {
+                    loadedImages++;
+                    if (loadedImages == gameData.length) {
+                        draw();
+                    }
+                }, false);
+                image.src = item.FileName;
+                images.push(image);
+            }
+        };
+
+   
+
+        var syncServer = function () {
+            var mapObject = null;
+            if (gameData != null)
+                mapObject = { map: gameData };
+            $('#serverprocessingdisplay').show(10);
+            IsServerProcessing = true;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Sync","Home")',
+                data: JSON.stringify(mapObject),
+                contentType: 'application/json',
+                success: function (data) {
+                    gameData = data;
+                    $('#serverprocessingdisplay').hide(1000);
+                    IsServerProcessing = false;
+                    drawScreen();
+                }
+            });
+        };
+
+        var sendCommandToServer = function (command) {
+            commandObject = { command : command };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("TakeAction","Home")',
+                data: JSON.stringify(commandObject),
+                contentType: 'application/json',
+                success: function (data) {
+                    gameData = data;
+                    
+                    $('#serverprocessingdisplay').hide(1000);
+                    IsServerProcessing = false;
+                    drawScreen();
+                }
+            });
+        };
+
+        var sendDockingCommandToServer = function (id) {
+            commandObject = { planet: id };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Docking","Home")',
+                data: JSON.stringify(commandObject),
+                contentType: 'application/json',
+                success: function (data) {
+                    jobs = data;
+                    $('#GameDiv').text('');
+                    $('#GameDiv').show(1000);
+                    for (var i = 0; i < data.length; i++) {
+                        var planet = getPlanetByID(jobs[i].DestinationID);
+                        if (planet != null) {
+                            jobString = jobs[i].Description + ":" + planet.Description;
+                            $('#GameDiv').append("<div> ID: " + i + " -" + jobString + "</div>");
+                        }
+                    }
+                }
+            }); 
+        };
+
+        var getPlanetByID = function (id) {
+            for (var i = 0; i < gameData.length - 1; i++) {
+                if (gameData[i].ID == id)
+                    return gameData[i];
+            }
+            return null;
+        };
+
+        //KeyBoard Handler
+        var getKeyBoardAction = function (evt) {
+            var playerSpaceShip = gameData[0];
+            switch (evt.keyCode) {
+                case 65:
+                    if (playerSpaceShip.col - 5 >=0)
+                        gameData[0].col -= 5;
+                    break;
+                case 87:
+                    if (playerSpaceShip.row - 5 >= 0)
+                        gameData[0].row -= 5;
+                    break;
+                case 83:
+                    if (playerSpaceShip.col + 5 < 500)
+                        gameData[0].col += 5;
+                    break;
+                case 90:
+                    if (playerSpaceShip.row + 5 < 500)
+                        gameData[0].row += 5;
+                    break;
+                case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
+                    //jobs
+                    if (docked) {
+                        var index = Math.abs(48 - evt.keyCode);
+                        currentJob = jobs[index];
+                        //alert(index);
+                        //alert(currentJob.Description);
+                        jobText = "You have picked up the job " + currentJob.Description;
+                    }
+                    else {
+                        jobText = "You are not docked";
+                    }
+                    $('#GameDiv').text(jobText);
+                    break;
+                case 74:
+                    if (currentJob != null) {
+                        $('#GameDiv').text(currentJob.Description);
+                    }
+                    else {
+                        $('#GameDiv').text("You don't have a job");
+                    }
+                    break;
+                default:
+                    //sendCommandToServer(evt.keyCode);
+                    break;
+            }
+            //check for dock
+            var oldDockState = docked;
+            docked = false;
+            for (var i = 1; i < gameData.length-1; i++) {
+                if (intersect(gameData[i].col, gameData[i].row, gameData[0].col, gameData[0].row)) {
+                    docked = true;
+                    if (currentJob == null) {
+                        $("#GameDiv").text('Docking');
+                        sendDockingCommandToServer(gameData[i].ID);
+                    }
+                    else {
+                        var planet = getPlanetByID(currentJob.DestinationID);
+
+
+                        if (planet != null) {
+                            if (intersect(planet.col, planet.row, gameData[i].col, gameData[i].row)) {
+                                cash += currentJob.Value;
+                                $('#GameDiv').text("job done you earned " + currentJob.Value);
+                                alert('job done');
+                                if (cash >= 1000) {
+                                    //alert('game over you have won');
+                                    $('#gameOverScreen').show(1000);
+                                }
+                                currentJob = null;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            if (oldDockState == true && docked == false)
+                    $("#GameDiv").text('');
+            
+        };
+
+
+        var doKeyDown = function (evt) {
+            if (!IsServerProcessing) {
+                var command = new String();
+                getKeyBoardAction(evt);
+                drawScreen();
+                if (clickCount++ > 5) {
+                    syncServer(gameData, evt.keyCode);
+                    clickCount = 0;
+                }
+            }
+        };
+
+        var intersect = function (firstX, firstY, secondX, secondY)
+        {
+            if (firstX == secondX && firstY == secondY)
+                return true;
+
+            if ((Math.abs(firstX - secondX)  <=10) && (Math.abs(firstY - secondY)<=10))
+                return true;
+
+            return false;
+        };
+
+        var action = "";
+        window.addEventListener('keydown', doKeyDown, true);
+        
+
+        $("#canvas").mousedown(function (e) {
+            var fixedX = e.clientX - 8;
+            var fixedY = e.clientY - 9;
+            //determine any intersections
+            for(var i=0;i<gameData.length;i++)
+            {
+                if (intersect(gameData[i].col, gameData[i].row, fixedX, fixedY)) {
+                    $("#GameDiv").text(gameData[i].Description);
+                }
+            }
+            $("#message").text("clicked: " + fixedX + ":" + fixedY);
+        });
+        syncServer();
+    });
+</script>
+
+
+

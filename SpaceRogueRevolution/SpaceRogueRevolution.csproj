@@ -126,24 +126,61 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\GalaxyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Coord.cs" />
-    <Compile Include="Models\Galaxy.cs" />
+    <Compile Include="Models\Commands\Command.cs" />
+    <Compile Include="Models\Commands\Coord.cs" />
+    <Compile Include="Models\Factory\JobFactory.cs" />
+    <Compile Include="Models\Factory\PlanetFactory.cs" />
+    <Compile Include="Models\Factory\SpaceshipFactory.cs" />
+    <Compile Include="Models\GameObjects\BaseGameObject.cs" />
+    <Compile Include="Models\GameObjects\Galaxy.cs" />
+    <Compile Include="Models\Commands\IGameControl.cs" />
+    <Compile Include="Models\Commands\KeyBoardGameControl.cs" />
+    <Compile Include="Models\GameObjects\GameImages.cs" />
+    <Compile Include="Models\GameObjects\Imapable.cs" />
+    <Compile Include="Models\GameObjects\Job.cs" />
+    <Compile Include="Models\GameObjects\Planet.cs" />
+    <Compile Include="Models\GameObjects\Spaceship.cs" />
+    <Compile Include="Models\GameObjects\Weapon.cs" />
     <Compile Include="Models\Tile.cs" />
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\blank.png" />
-    <Content Include="Content\Images\dart.png" />
-    <Content Include="Content\Images\freighter.png" />
-    <Content Include="Content\Images\pirate.png" />
-    <Content Include="Content\Images\planetblue.png" />
-    <Content Include="Content\Images\planetbrown.png" />
-    <Content Include="Content\Images\planetwhite.png" />
+    <Content Include="Content\Images\dart.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\darteast.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartnorth.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartsouth.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\dartwest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\freighter.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\pirate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetblue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetbrown.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\planetwhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\sun.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -239,7 +276,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Galaxy\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
