@@ -7,8 +7,8 @@ namespace SpaceRogueRevolution.Models.GameObjects
 {
     public class GameImages
     {
-        public static readonly string ServerLoc = ""; //local
-        //public static readonly string ServerLoc = "/SpaceRogueRevolution";  //server
+        //public static readonly string ServerLoc = ""; //local
+        public static readonly string ServerLoc = "/SpaceRogueRevolution";  //server
         public static readonly string DesertPlanet = ServerLoc + "/Content/Images/planetbrown.png";
         public static readonly string WaterPlanet = ServerLoc + "/Content/Images/planetblue.png";
         public static readonly string IcePlanet = ServerLoc + "Content/Images/planetwhite.png";
