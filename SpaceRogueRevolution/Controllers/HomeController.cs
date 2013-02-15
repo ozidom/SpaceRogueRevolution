@@ -2,6 +2,7 @@
 using SpaceRogueRevolution.Models.GameObjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,11 @@ namespace SpaceRogueRevolution.Controllers
             return View();
         }
 
+        public string Ping()
+        {
+            return "OK";
+        }
+
         //
         // GET: /Home/Details/5
 
@@ -29,12 +35,20 @@ namespace SpaceRogueRevolution.Controllers
         [HttpPost]
         public ActionResult Sync(List<Tile> map)
         {
+            Trace.WriteLine("1");
             Galaxy galaxy = GetGalaxy(map);
+            Trace.WriteLine("2");
             SetGalaxy(galaxy);
-            if (map!= null)
+            if (map != null)
+            {
+                Trace.WriteLine("3");
                 galaxy.UpdatePlayerStarshipToGameObject(map[0]);
+            }
+            Trace.WriteLine("4");
             galaxy.TakeComputerActions();
+            Trace.WriteLine("5");
             galaxy.UpdateGameObjectsToMap();
+            Trace.WriteLine("6");
             return Json(galaxy.map);
         }
 

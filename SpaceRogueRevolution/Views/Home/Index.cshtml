@@ -35,7 +35,7 @@
 <div id="gameLooseScreen" class="GameOverDiv">
     <div>
           @SpaceRogueRevolution.GameResource.GameLooseText
-    </div>
+    </div>f
     <div style="position:absolute;vertical-align:bottom">   
         <input type="button" value="OK" onclick="location.reload(true);" />
     </div> 
@@ -57,6 +57,7 @@
 <script type="text/javascript">
     $(document).ready(function()
     {
+
         var IsServerProcessing = false;
         var currentJob = null;
         var clickCount = 0;
@@ -113,10 +114,8 @@
 
         //SYNC PROCESS SERVER RESPONSE METHOD
         var processSyncData = function (data) {
+            alert(data);
             gameData = data;
-        
-           
-         
             $('#serverprocessingdisplay').hide(1000);
             IsServerProcessing = false;
             drawScreen();
@@ -303,7 +302,6 @@
                    
                     commandObject = { map: gameData };
                     callServer(null, '@Url.Action("Sync","Home")', processSyncData, commandObject);
-                    //syncServer(gameData, evt.keyCode);
                     clickCount = 0;
                 }
             }
@@ -337,7 +335,9 @@
             $("#message").text("clicked: " + fixedX + ":" + fixedY);
         });
         commandObject = { map: gameData };
-        callServer(null, '/Home/Sync', processSyncData, commandObject);
+        
+        //callServer(null, '/Home/Sync', processSyncData, commandObject);
+        callServer(null, '/Home/Ping', processSyncData, null);
 
     });
 </script>
