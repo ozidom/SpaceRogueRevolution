@@ -19,6 +19,11 @@ namespace SpaceRogueRevolution.Controllers
             return View();
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
         public string Ping()
         {
             return "OK";
