@@ -336,8 +336,8 @@
         });
         commandObject = { map: gameData };
         
-        //callServer(null, '/Home/Sync', processSyncData, commandObject);
-        callServer(null, '/Home/Ping', processSyncData, null);
+        callServer(null, '/Home/Sync', processSyncData, commandObject);
+        //callServer(null, '/Home/Ping', processSyncData, null);
 
     });
 </script>
