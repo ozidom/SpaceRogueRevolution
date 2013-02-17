@@ -76,6 +76,7 @@
         var mouseDownXoffSet = 8;               //offset required to get an accurate X co-ord relative to the CANVAS
         var mouseDownYoffSet = 9;               //offset required to get an accurate Yco-ord relative to the CANVAS
         var GameWinMoneyAmount = 1000;
+        var SyncTurns = 10;                     //rounds before a sync occurs
 
         $('#AboutDiv').hide();
         $('#HowToPlayDiv').hide();
@@ -114,7 +115,7 @@
 
         //SYNC PROCESS SERVER RESPONSE METHOD
         var processSyncData = function (data) {
-            alert(data);
+            //alert(data);
             gameData = data;
             $('#serverprocessingdisplay').hide(1000);
             IsServerProcessing = false;
@@ -298,7 +299,7 @@
                 var command = new String();
                 getKeyBoardAction(evt);
                 drawScreen();
-                if (clickCount++ > 5) {
+                if (clickCount++ > SyncTurns ) {
                    
                     commandObject = { map: gameData };
                     callServer(null, '@Url.Action("Sync","Home")', processSyncData, commandObject);
@@ -336,7 +337,7 @@
         });
         commandObject = { map: gameData };
         
-        callServer(null, '/Home/Sync', processSyncData, commandObject);
+        callServer(null, '@Url.Action("Sync","Home")', processSyncData, commandObject);
         //callServer(null, '/Home/Ping', processSyncData, null);
 
     });
