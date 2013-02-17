@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Space Rogue Revolution - Episode 1: The Big Jobs";
 }
 <script src="~/Scripts/jquery-1.8.2.js"></script>
 <script src="~/Scripts/jquery-ui-1.9.2.js"></script>
@@ -9,14 +9,15 @@
 </div>
 <div id ="message" style="position:absolute;top:420px;left:0px" ></div>
 <div id ="display" style="position:absolute;top:450px;left:0px" ></div>
-<div id ="titleDiv"class="titleDiv" >
-    Space Rogue Revolution -the big jobs
-</div>
 
 
-<div id ="serverprocessingdisplay" class="serverprocessingdisplay"  >Contacting Server...</div>
+
+<div id ="serverprocessingdisplay" class="serverprocessingdisplay"  >Syncing with game server...</div>
 
 <div id="dialog" class="IntroGameDiv">
+    <div id ="titleDiv"class="titleDiv" >
+    Space Rogue Revolution -the big jobs
+</div>
     <div>
          @SpaceRogueRevolution.GameResource.IntroGameText
     </div>
@@ -206,20 +207,28 @@
                     }
                     break;
                 case 65:
-                    if (playerSpaceShip.col - playerSpaceshipMoveDistance >=0)
+                    if (playerSpaceShip.col - playerSpaceshipMoveDistance >= 0) {
                         gameData[0].col -= playerSpaceshipMoveDistance;
+                        gameData[0].FileName = gameData[0].gameObject.DirectionImageW;
+                    }
                     break;
                 case 87:
-                    if (playerSpaceShip.row - playerSpaceshipMoveDistance >= 0)
+                    if (playerSpaceShip.row - playerSpaceshipMoveDistance >= 0) {
                         gameData[0].row -= playerSpaceshipMoveDistance;
+                        gameData[0].FileName = gameData[0].gameObject.DirectionImageN;
+                    }
                     break;
                 case 83:
-                    if (playerSpaceShip.col + playerSpaceshipMoveDistance < galaxyWidth)
+                    if (playerSpaceShip.col + playerSpaceshipMoveDistance < galaxyWidth) {
                         gameData[0].col += playerSpaceshipMoveDistance;
+                        gameData[0].FileName = gameData[0].gameObject.DirectionImageE;
+                    }
                     break;
                 case 90:
-                    if (playerSpaceShip.row + playerSpaceshipMoveDistance < galaxyWidth)
+                    if (playerSpaceShip.row + playerSpaceshipMoveDistance < galaxyWidth) {
                         gameData[0].row += playerSpaceshipMoveDistance;
+                        gameData[0].FileName = gameData[0].gameObject.DirectionImageS;
+                    }
                     break;
                 case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
                     //jobs

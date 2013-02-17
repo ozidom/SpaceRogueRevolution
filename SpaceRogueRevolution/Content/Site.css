@@ -114,11 +114,6 @@ img {
 .titleDiv {
     font-family: 'Comic Sans MS';
     font-size: 20pt;
-    position: absolute;
-    top: 0px;
-    left: 500px;
-    height: 100px;
-    width: 500px;
 }
 
 .serverprocessingdisplay {

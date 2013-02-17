@@ -20,7 +20,11 @@ namespace SpaceRogueRevolution.Models.GameObjects
         public List<int> landingPermits { get; set; }
         public int Money { get; set; }
         public bool IsDocked { get; set; }
-        public string DirectionImage { get; set; }
+        public string DirectionImageN { get; set; }
+        public string DirectionImageS { get; set; }
+        public string DirectionImageE { get; set; }
+        public string DirectionImageW { get; set; }
+
         public int Row { get; set; }
         public int Col { get; set; }
 
@@ -51,7 +55,7 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
         public Tile GetTileForMap()
         {
-            Tile t = new Tile { ID = 1, FileName = DirectionImage , Description = this.Description, row = Row, col = this.Col, gameObject = this };
+            Tile t = new Tile { ID = 1, FileName = DirectionImageN , Description = this.Description, row = Row, col = this.Col, gameObject = this };
             return t;
         }
 

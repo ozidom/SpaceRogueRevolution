@@ -28,7 +28,9 @@ namespace SpaceRogueRevolution.Models
         {
             map = new List<Tile>();
             Debug.WriteLine("Building Map");
-            playerSpaceShip = new Spaceship { ID = 1, DirectionImage = GameImages.Dart, Row = 5, Col = 5, CurrentFuel = 100,CurrentFood =100, Money = 50 };
+            playerSpaceShip = new Spaceship { ID = 1, DirectionImageN = GameImages.DartNorth,DirectionImageE = GameImages.DartEast,
+                DirectionImageS = GameImages.DartSouth,DirectionImageW = GameImages.DartWest,
+                Row = 5, Col = 5, CurrentFuel = 100,CurrentFood =100, Money = 50 };
             gameObjects.Add(playerSpaceShip);
             AddPlanetsToGameObjects();
             UpdateGameObjectsToMap();
