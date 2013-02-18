@@ -18,12 +18,13 @@
     <div id ="titleDiv"class="titleDiv" >
     Space Rogue Revolution -the big jobs
 </div>
-    <div>
+        <div id="caption">
          @SpaceRogueRevolution.GameResource.IntroGameText
-    </div>
-    <div style="position:absolute;vertical-align:bottom">   
+        </div>
+
+        <div>
         <input type="button" value="Continue" onclick="$('#dialog').hide(1000);" />
-    </div> 
+        </div> 
 </div>
 <div id="gameWinScreen" class="GameOverDiv">
     <div>
@@ -34,11 +35,10 @@
     </div> 
 </div>
 <div id="gameLooseScreen" class="GameOverDiv">
-    <div>
-          @SpaceRogueRevolution.GameResource.GameLooseText
-    </div>f
-    <div style="position:absolute;vertical-align:bottom">   
-        <input type="button" value="OK" onclick="location.reload(true);" />
+    <div id="gameLooseText">
+    </div>
+    <div style="position:absolute;vertical-align:bottom;z-index:50">   
+        <input type="button" value="Start again" onclick="location.reload(true);" />
     </div> 
 </div>
 <div id="HowToPlayDiv" class="HowToPlayDiv">
@@ -77,7 +77,7 @@
         var intersectionRange = 10;             //intersection with a planet by starship is  plus or minus this
         var mouseDownXoffSet = 8;               //offset required to get an accurate X co-ord relative to the CANVAS
         var mouseDownYoffSet = 9;               //offset required to get an accurate Yco-ord relative to the CANVAS
-        var GameWinMoneyAmount = 1000;
+        var GameWinMoneyAmount = 5000;
         var SyncTurns = 10;                     //rounds before a sync occurs
 
         $('#AboutDiv').hide();
@@ -114,13 +114,23 @@
             }
         };
 
+        var endGame = function (reason) {
+            $('#gameLooseText').text(reason);
+            callServer(null, '@Url.Action("ProcessEndGame","Home")', processEndGame, null)
+        };
+
         //SYNC PROCESS SERVER RESPONSE METHOD
         var processSyncData = function (data) {
-            //alert(data);
             gameData = data;
             $('#serverprocessingdisplay').hide(1000);
             IsServerProcessing = false;
             drawScreen();
+        };
+
+        //SYNC PROCESS SERVER RESPONSE METHOD
+        var processEndGame = function (data) {
+            $('#serverprocessingdisplay').hide(1000);
+            $('#gameLooseScreen').show(1000);
         };
 
         //JOB REQUEST SERVER RESPONSE METHOD
@@ -225,7 +235,7 @@
                     }
                     break;
                 case 90:
-                    if (playerSpaceShip.row + playerSpaceshipMoveDistance < galaxyWidth) {
+                    if (playerSpaceShip.row + playerSpaceshipMoveDistance < galaxyWidth-20) {
                         gameData[0].row += playerSpaceshipMoveDistance;
                         gameData[0].FileName = gameData[0].gameObject.DirectionImageS;
                     }
@@ -295,8 +305,10 @@
 
             var gameObject = gameData[0].gameObject;
             if (gameObject != null) {
-                if (gameObject.CurrentFuel < 0 || gameObject.CurrentFood < 0)
-                    $('#gameLooseScreen').show(1000);
+                if (gameObject.CurrentFuel <= 0)
+                    endGame("You have run out of fuel the ship has been abandoned in space");
+                else if (gameObject.CurrentFuel <= 0)
+                    endGame("You have run out of food your crew urgently need food - the ship has been abandoned in space");
             }
                 
             if (oldDockState == true && docked == false)
@@ -357,9 +369,9 @@
                 $("#GameDiv").text("");
         });
         commandObject = { map: gameData };
-        
+     
         callServer(null, '@Url.Action("Sync","Home")', processSyncData, commandObject);
-        //callServer(null, '/Home/Ping', processSyncData, null);
+
 
     });
 </script>

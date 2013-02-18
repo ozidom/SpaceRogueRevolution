@@ -114,6 +114,7 @@ img {
 .titleDiv {
     font-family: 'Comic Sans MS';
     font-size: 20pt;
+
 }
 
 .serverprocessingdisplay {
@@ -160,7 +161,8 @@ img {
     z-index:30;
 }
 .GameOverDiv {
-    background-color:darkblue;
+    background-color:black;
+    color:white;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -169,14 +171,14 @@ img {
     z-index:13;
 }
 .IntroGameDiv {
-    background-color:black;
-    color:green;
+    background-color: black;
+    color: #00FF00;
     position: absolute;
     top: 0px;
     left: 0px;
     height: 700px;
     width: 500px;
-    z-index:15;
+    z-index: 15;
 }
 .inputSibbling {
     position: absolute;
@@ -185,4 +187,11 @@ img {
     background-color: #000066;
     color: white;
     z-index: 24;
+}
+input[type="button"] {
+    font-family: 'Comic Sans MS';
+     color: #00FF00;
+    color:yellow;
+    background-color:black;
+    border:solid;
 }

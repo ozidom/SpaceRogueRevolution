@@ -59,6 +59,14 @@ namespace SpaceRogueRevolution.Controllers
         }
 
         [HttpPost]
+        public ActionResult ProcessEndGame()
+        {
+            Session["galaxy"] = null;
+            return Json(null);
+
+        }
+
+        [HttpPost]
         public ActionResult TakeAction(string command)
         {
             Galaxy galaxy = GetGalaxy(null);

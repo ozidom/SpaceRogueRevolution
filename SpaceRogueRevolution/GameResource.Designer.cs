@@ -70,7 +70,7 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You won have become a great trader in the galaxy well done.
+        ///   Looks up a localized string similar to You earned enought to retire thats it, put your feet up and relax - hard life earning a buck in the galaxy is over - you have won!!!.
         /// </summary>
         public static string GameWinText {
             get {
@@ -88,8 +88,7 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to the galaxy, You are the captain of the dart. Travel to different planets to pickup jobs and collect money. If you 
-        ///              have more than 100 million credits you win. Its that simple...
+        ///   Looks up a localized string similar to Welcome to the galaxy, You are the captain of the dart - a small rugged spaceship. It&apos;s a  tough Galaxy to survivve in but there are good jobs and bad jobs and if you can pick up the right one - who knows you might just succeed. Of course the real money comes on the Big Jobs and these are the ones that will get you the glory but sometimes they don&apos;t end up so well but then... &quot;.cause sometimes &quot;you get that on these big jobs!!!&quot;. Travel to different planets to pickup jobs and collect money for the job. If y [rest of string was truncated]&quot;;.
         /// </summary>
         public static string IntroGameText {
             get {
