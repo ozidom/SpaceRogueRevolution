@@ -38,19 +38,8 @@ namespace SpaceRogueRevolution.Models.GameObjects
 
         public override void ProcessTurn()
         {
-            if (jobs!= null && jobs.Count < 5)
-            {
-                while (jobs.Count < 10)
-                {
-                    jobs.Add(JobFactory.CreateRandomJob(9));
-                }
-            }
-
-            //if (CurrentFood < MaxFood)
-                CurrentFood++;
-
-            //if (CurrentFuel < MaxFuel)
-                CurrentFuel++;
+            CurrentFood++;
+            CurrentFuel++;
 
             if (spaceShips != null)
             {

@@ -51,14 +51,11 @@ namespace SpaceRogueRevolution.Models
 
         private void AddPlanetsToGameObjects()
         {
-            //This stuff is also fairly crap lets get the cleanup going
-
             for(int i=0;i<10;i++)
             {
                 Planet pt = PlanetFactory.CreateRandomPlanet(i);
                 gameObjects.Add(pt);
             }
-
         }
 
         internal void ProcessCommand(Command command)
@@ -66,8 +63,6 @@ namespace SpaceRogueRevolution.Models
             string commandText = gameControl.takeAction(command);
             TakeComputerActions();
             UpdateGameObjectsToMap();
-
-
         }
 
    
@@ -90,25 +85,23 @@ namespace SpaceRogueRevolution.Models
 
         internal void UpdatePlayerStarshipToGameObject(Tile tile)
         {
-            //playerSpaceShip.Col = tile.col;
-           // playerSpaceShip.Row = tile.row;
             if (tile.gameObject != null)
             {
                 playerSpaceShip  = tile.gameObject;
                 playerSpaceShip.Row = tile.row;
                 playerSpaceShip.Col = tile.col;
-                /*playerSpaceShip.Row = tempSpaceShip.Row;
-                playerSpaceShip.Col = tempSpaceShip.Row;
-                playerSpaceShip.Money = tempSpaceShip.Money;
-                playerSpaceShip.CurrentFood = tempSpaceShip.CurrentFood;
-                playerSpaceShip.CurrentFuel = tempSpaceShip.CurrentFuel;*/
-
             }
             playerSpaceShip.ProcessTurn();
-
-
             gameObjects[0] = playerSpaceShip;
             
+        }
+
+        internal void TakeJobOffMarket(Job job)
+        {
+            var planet = (Planet)gameObjects.Where(o => o is Planet).FirstOrDefault(p => p.ID.Equals(job.OriginID));
+            gameObjects.RemoveAll(p=>p.ID == job.OriginID);
+            planet.jobs.RemoveAll(j => j.ID == job.ID);
+            gameObjects.Add(planet);
         }
     }
 }

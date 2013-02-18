@@ -47,6 +47,18 @@ namespace SpaceRogueRevolution.Controllers
         }
 
         [HttpPost]
+        public ActionResult TakeJob(Job job)
+        {
+            Galaxy galaxy = GetGalaxy(null);
+            galaxy.TakeJobOffMarket(job);
+            SetGalaxy(galaxy);
+            galaxy.UpdateGameObjectsToMap();
+            List<Job> jobs = galaxy.GetOpenJobsForPlanet(job.OriginID);
+            return Json(jobs);
+       
+        }
+
+        [HttpPost]
         public ActionResult TakeAction(string command)
         {
             Galaxy galaxy = GetGalaxy(null);

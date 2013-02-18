@@ -8,21 +8,21 @@ namespace SpaceRogueRevolution.Models.Factory
 {
     public static class JobFactory
     {
-        public static Job Create(int id,string description,int desination,int value)
+        /*public static Job Create(int id,string description,int desination,int value)
         {
             return new Job { ID = id, Description = description, DestinationID = desination, Value = value };  
-        }
+        }*/
 
-        public static Job CreateRandomJob(int numberPlanets)
+        public static Job CreateRandomJob(int id, int numberPlanets,int currentPlanetID)
         {
-            int id = 0;
+           
             int value = 0;
-       
+            int risk = 0;
             string description = "";
             Random r = new Random();
-            GetRandomDescriptionAndValue(out description,out value);
+            GetRandomDescriptionAndValue(out description,out value,out risk);
             int destinationID = r.Next(7);
-            return new Job { ID = id++, Description = description, DestinationID = destinationID, Value = value };  
+            return new Job { ID = id, Description = description,OriginID = currentPlanetID, DestinationID = destinationID, Value = value,Risk=risk };  
         }
 
         private static int GetRandomJobValue()
@@ -38,24 +38,26 @@ namespace SpaceRogueRevolution.Models.Factory
             return planets[randomIndex].ID;
         }
 
-        public static void GetRandomDescriptionAndValue(out string description,out int value )
+        public static void GetRandomDescriptionAndValue(out string description,out int value,out int risk )
         {
             
-            var jobs = new [] { new {Name="Transfer of Cash",value=100},
-                                new {Name="Transfer Goods",value=200},
-                                new {Name="Government worker travel",value=300},
-                                new {Name="Computer Specialist",value=500},
-                                new {Name="Trade Official",value=200},
-                                new {Name="Sport Star Transfer",value=400},
-                                new {Name="Bridal Party",value=200},
-                                new {Name="Angry Activists",value=600},
-                                new {Name="Paranoid Android",value=800},
-                                new {Name="Bomb Transfer",value=1400}};
+            var jobs = new [] { new {Name="Transfer of Cash",value=400,risk= 2},
+                                new {Name="Transfer Goods",value=200,risk= 1},
+                                new {Name="Transport of Government worker travel",value=300,risk= 2},
+                                new {Name="Transport for a highly sought after Computer Specialist",value=400,risk= 2},
+                                new {Name="Ensure safe passage for an intergalactice Trade Official",value=800,risk= 6},
+                                new {Name="Take a famous Sports star to a big game",value=300,risk= 4},
+                                new {Name="Take a family to a Bridal Party",value=200,risk= 1},
+                                new {Name="Take a load of angry activists to a political conference",value=400,risk= 3},
+                                new {Name="Transport a Paranoid Android",value=900,risk= 8},
+                                new {Name="You need to transfer a Nuclear Bomb ",value=1400,risk=10}
+            };
 
             Random r = new Random();
             int index = r.Next(jobs.Length);
             description = jobs[index].Name;
             value = jobs[index].value;
+            risk = jobs[index].risk;
         }
     }
 }

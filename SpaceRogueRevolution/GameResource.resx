@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GameLooseText" xml:space="preserve">
-    <value>You lost the ships been abandoned!!!!</value>
+    <value>Resources have been all used up -  ships been abandoned!!!!</value>
   </data>
   <data name="GameWinText" xml:space="preserve">
-    <value>You won well done</value>
+    <value>You won have become a great trader in the galaxy well done</value>
   </data>
   <data name="HelpText" xml:space="preserve">
-    <value>To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs destination. You can refuel by the R key and you can buy food using the F key.</value>
+    <value>To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs destination. You can refuel by the [R] key and you can buy food using the [F] key.</value>
   </data>
   <data name="IntroGameText" xml:space="preserve">
     <value>Welcome to the galaxy, You are the captain of the dart. Travel to different planets to pickup jobs and collect money. If you 

@@ -39,8 +39,8 @@ namespace SpaceRogueRevolution.Models.GameObjects
             }
             else
             {
-                CurrentFuel--;
-                CurrentFood--;
+                CurrentFuel-=5;
+                CurrentFood-=5;
             }
         }
 

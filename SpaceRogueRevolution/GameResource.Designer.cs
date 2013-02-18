@@ -61,7 +61,7 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You lost the ships been abandoned!!!!.
+        ///   Looks up a localized string similar to Resources have been all used up -  ships been abandoned!!!!.
         /// </summary>
         public static string GameLooseText {
             get {
@@ -70,7 +70,7 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You won well done.
+        ///   Looks up a localized string similar to You won have become a great trader in the galaxy well done.
         /// </summary>
         public static string GameWinText {
             get {
@@ -79,7 +79,7 @@ namespace SpaceRogueRevolution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs destination. You can refuel by the R key and you can buy food using the F key..
+        ///   Looks up a localized string similar to To move the spaceship used W,A,S,D for directions. Click on a planet for details. When you arrive at a planet you will auto dock and if you want to pickup a job use the numbers [0-9] to select your job. Then head to the planet for the jobs destination. You can refuel by the [R] key and you can buy food using the [F] key..
         /// </summary>
         public static string HelpText {
             get {

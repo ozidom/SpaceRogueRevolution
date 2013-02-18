@@ -9,10 +9,8 @@ namespace SpaceRogueRevolution.Models.Factory
 {
     public class PlanetFactory
     {
-        int CurrentFuel;
         int MaxFuel = Utility.Rnd(100);
         int CurrentFood = Utility.Rnd(100);
-        int MaxFood = Utility.Rnd(100);
 
         int LawLevel = Utility.Rnd(10);
         int CostLandingPermit = Utility.Rnd(10);
@@ -26,20 +24,20 @@ namespace SpaceRogueRevolution.Models.Factory
             Planet p = new Planet();
             p.ID = id;
             p.Name = GenRandomName();
-            p.CurrentFuel = Utility.Rnd(100);
-            p.MaxFuel = Utility.Rnd(100);
-            p.CurrentFood = Utility.Rnd(100);
-            p.MaxFood = Utility.Rnd(100);
             p.type = GetRandomPlanetType();
-            p.LawLevel = Utility.Rnd(10);
-            p.CostLandingPermit = Utility.Rnd(10);
-            p.LandingPermitID = Utility.Rnd(10);
-           
-            p.Row = Utility.Rnd(400);
-            p.Col = Utility.Rnd(400);
-           
+
             if (p.type != Utility.PlanetType.Gas)
-                p.jobs = GetRandomJobs();
+            {
+                p.jobs = GetRandomJobs(id);
+                p.CurrentFuel = Utility.Rnd(100);
+                p.MaxFuel = Utility.Rnd(100);
+                p.MaxFood = Utility.Rnd(100);
+                p.LawLevel = Utility.Rnd(10);
+                p.CostLandingPermit = Utility.Rnd(10);
+                p.LandingPermitID = Utility.Rnd(10);
+            }
+             p.Row = Utility.Rnd(400);
+             p.Col = Utility.Rnd(400);
 
              p.weapon = GetRandomGroundDefenceWeapon();
 
@@ -83,12 +81,12 @@ namespace SpaceRogueRevolution.Models.Factory
             return weapons[randomIndex];
         }
 
-        private static List<Job> GetRandomJobs()
+        private static List<Job> GetRandomJobs(int planetID)
         {
             List<Job> jobs = new List<Job>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
-                Job j = JobFactory.CreateRandomJob(9);
+                Job j = JobFactory.CreateRandomJob(i,5,planetID);
                 jobs.Add(j);
                 System.Threading.Thread.Sleep(10);
             }

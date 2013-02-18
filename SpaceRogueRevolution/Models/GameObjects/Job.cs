@@ -8,7 +8,9 @@ namespace SpaceRogueRevolution.Models.GameObjects
     public class Job : BaseGameObject
     {
         public int DestinationID { get; set; }
+        public int OriginID { get; set; }
         public int Value { get; set; }
+        public int Risk { get; set; }               //Risk of a disaster per turn
 
         private int timeOnMarket { get;set; }
 

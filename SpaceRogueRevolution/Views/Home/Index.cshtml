@@ -67,6 +67,7 @@
         var docked = false;
         var cash = 0;
         var jobText = "";
+        var displayMessage = new String();
 
         var playerSpaceshipMoveDistance = 5;    //how far the spaceShip can move a turn (px)
         var galaxyWidth = 500;                  //width of galaxy in (px)
@@ -105,7 +106,6 @@
                 image.addEventListener("load", function () {
                     loadedImages++;
                     if (loadedImages == gameData.length) {
-             
                         draw();
                     }
                 }, false);
@@ -176,34 +176,34 @@
             switch (evt.keyCode) {
                 case 70:
                     if (!docked)
-                        $('#GameDiv').text("You are not docked");
+                        displayMessage = "You are not docked";
                     else
                         {
                         if (gameData[0].gameObject != null) {
                             if (gameData[0].gameObject.Money > 10) {
                                 gameData[0].gameObject.CurrentFood += 100;
                                 gameData[0].gameObject.Money -= gameData[0].gameObject.Money - 10;
-                                $('#GameDiv').text("You bought food");
+                                displayMessage = "You bought food";
                             }
                             else
-                                $('#GameDiv').text("Not enough money");
+                                displayMessage = "Not enough money";
                         }
 
                     }
                     break;
                 case 71:
                     if (!docked) {
-                        $('#GameDiv').text("You are not docked");
+                        displayMessage = "You are not docked";
                     }
                     else
                     if (gameData[0].gameObject != null) {
                         if (gameData[0].gameObject.Money >= 10) {
                             gameData[0].gameObject.CurrentFuel += 100;
                             gameData[0].gameObject.Money = gameData[0].gameObject.Money - 10;
-                            $('#GameDiv').text("You bought fuel");
+                            displayMessage = "You bought fuel";
                         }
                         else 
-                            $('#GameDiv').text("Not enough money");
+                            displayMessage = "Not enough money";
                     }
                     break;
                 case 65:
@@ -232,15 +232,17 @@
                     break;
                 case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57:
                     //jobs
-                    if (docked) {
+                    if (docked && currentJob == null) {
                         var index = Math.abs(48 - evt.keyCode);
                         currentJob = jobs[index];
-                        jobText = "You have picked up the job " + currentJob.Description;
+                        displayMessage = "You have picked up the job " + currentJob.Description;
+                        commandObject = { Job: currentJob }
+                        callServer(id, '@Url.Action("TakeJob","Home")', processJobData, commandObject);
                     }
                     else {
                         jobText = "You are not docked";
                     }
-                    $('#GameDiv').text(jobText);
+                    //$('#GameDiv').text(jobText);
                     break;
                 case 74:
                     if (currentJob != null) {
@@ -255,7 +257,6 @@
             }
             
             var oldDockState = docked;
-            var displayMessage = String();
             docked = false;
             for (var i = 1; i < gameData.length-1; i++) {
                 if (intersect(gameData[i].col, gameData[i].row, gameData[0].col, gameData[0].row))
@@ -285,6 +286,7 @@
                     }
                 }
             }
+            $("GameDiv").text("");
             $("#GameDiv").text(displayMessage);
 
             if (cash >= GameWinMoneyAmount) {
@@ -307,6 +309,11 @@
             if (!IsServerProcessing) {
                 var command = new String();
                 getKeyBoardAction(evt);
+
+                var random = Math.random() * 100;
+                if (currentJob !=null && random <= currentJob.Risk)
+                    $('#gameLooseScreen').show(1000);
+
                 drawScreen();
                 if (clickCount++ > SyncTurns ) {
                    
@@ -314,6 +321,8 @@
                     callServer(null, '@Url.Action("Sync","Home")', processSyncData, commandObject);
                     clickCount = 0;
                 }
+
+                
             }
         };
 
@@ -334,15 +343,18 @@
 
         $("#canvas").mousedown(function (e) {
             var fixedX = e.clientX - mouseDownXoffSet;
-            var fixedY = e.clientY -  mouseDownYoffSet;
+            var fixedY = e.clientY - mouseDownYoffSet;
+            var collision = false;
             //determine any intersections
             for(var i=0;i<gameData.length;i++)
             {
                 if (intersect(gameData[i].col, gameData[i].row, fixedX, fixedY)) {
                     $("#GameDiv").text(gameData[i].Description);
+                    collision = true;
                 }
             }
-            $("#message").text("clicked: " + fixedX + ":" + fixedY);
+            if (!collision)
+                $("#GameDiv").text("");
         });
         commandObject = { map: gameData };
         
